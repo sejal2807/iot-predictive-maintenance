@@ -1,0 +1,105 @@
+# IoT Predictive Maintenance Configuration
+
+# Data Configuration
+data:
+  sampling_rate: 60  # seconds
+  history_days: 30
+  anomaly_rate: 0.05
+  devices:
+    - device_001
+    - device_002
+    - device_003
+    - device_004
+    - device_005
+
+# Sensor Configuration
+sensors:
+  temperature:
+    min_value: -10
+    max_value: 80
+    unit: "°C"
+    threshold_warning: 40
+    threshold_critical: 50
+  
+  vibration:
+    min_value: 0
+    max_value: 10
+    unit: "mm/s"
+    threshold_warning: 3
+    threshold_critical: 5
+  
+  pressure:
+    min_value: 0
+    max_value: 20
+    unit: "bar"
+    threshold_warning: 15
+    threshold_critical: 18
+  
+  current:
+    min_value: 0
+    max_value: 30
+    unit: "A"
+    threshold_warning: 25
+    threshold_critical: 28
+  
+  humidity:
+    min_value: 0
+    max_value: 100
+    unit: "%"
+    threshold_warning: 80
+    threshold_critical: 90
+
+# Model Configuration
+models:
+  isolation_forest:
+    contamination: 0.1
+    n_estimators: 100
+    random_state: 42
+  
+  one_class_svm:
+    nu: 0.1
+    kernel: "rbf"
+    gamma: "scale"
+  
+  local_outlier_factor:
+    n_neighbors: 20
+    novelty: true
+  
+  lstm_autoencoder:
+    sequence_length: 10
+    epochs: 100
+    batch_size: 32
+    learning_rate: 0.001
+
+# Dashboard Configuration
+dashboard:
+  refresh_interval: 5  # seconds
+  max_data_points: 1000
+  chart_height: 400
+  theme: "light"
+
+# Alert Configuration
+alerts:
+  email_enabled: false
+  email_recipients: []
+  slack_enabled: false
+  slack_webhook: ""
+  
+  thresholds:
+    anomaly_rate_warning: 0.1
+    anomaly_rate_critical: 0.2
+    maintenance_priority_critical: 3
+
+# Maintenance Configuration
+maintenance:
+  auto_schedule: true
+  priority_weights:
+    critical: 1.0
+    high: 0.8
+    medium: 0.6
+    low: 0.4
+  
+  scheduling:
+    working_hours_start: 8
+    working_hours_end: 18
+    max_daily_tasks: 5
