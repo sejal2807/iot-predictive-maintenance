@@ -494,37 +494,47 @@ avg_health = sum(d['health_score'] for d in data) / len(data) if len(data) > 0 e
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    st.metric(
-        label="🏭 Active Devices",
-        value=total_devices
-    )
+    st.markdown(f"""
+    <div class="metric-card">
+        <h3>🏭 Active Devices</h3>
+        <h2>{total_devices}</h2>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col2:
     color = "🔴" if anomaly_rate > 0.1 else "🟡" if anomaly_rate > 0.05 else "🟢"
-    st.metric(
-        label=f"{color} Anomaly Rate",
-        value=f"{anomaly_rate:.1%}"
-    )
+    st.markdown(f"""
+    <div class="metric-card">
+        <h3>{color} Anomaly Rate</h3>
+        <h2>{anomaly_rate:.1%}</h2>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col3:
-    st.metric(
-        label="⚠️ Critical Devices",
-        value=critical_devices
-    )
+    st.markdown(f"""
+    <div class="metric-card">
+        <h3>⚠️ Critical Devices</h3>
+        <h2>{critical_devices}</h2>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col4:
     health_color = "🔴" if avg_health < 50 else "🟡" if avg_health < 80 else "🟢"
-    st.metric(
-        label=f"{health_color} Avg Health",
-        value=f"{avg_health:.1f}%"
-    )
+    st.markdown(f"""
+    <div class="metric-card">
+        <h3>{health_color} Avg Health</h3>
+        <h2>{avg_health:.1f}%</h2>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col5:
     uptime = 99.9 - (anomaly_rate * 10)
-    st.metric(
-        label="⏱️ System Uptime",
-        value=f"{uptime:.1f}%"
-    )
+    st.markdown(f"""
+    <div class="metric-card">
+        <h3>⏱️ System Uptime</h3>
+        <h2>{uptime:.1f}%</h2>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Real-time charts
 st.subheader("📊 Sensor Data Charts")
