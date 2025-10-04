@@ -13,8 +13,8 @@ import pytz
 
 # Setup the page
 st.set_page_config(
-    page_title="­ƒöº IoT Predictive Maintenance Dashboard",
-    page_icon="­ƒöº",
+    page_title="🔧 IoT Predictive Maintenance Dashboard",
+    page_icon="🔧",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -481,7 +481,7 @@ critical_devices = sum(1 for device_data in device_latest_status.values() if dev
 
 # Logical validation: Critical devices cannot exceed active devices
 if critical_devices > total_devices:
-    st.warning(f"ÔÜá´©Å **Data Logic Error:** Critical devices ({critical_devices}) exceed active devices ({total_devices}). This indicates a data processing issue.")
+    st.warning(f"⚠️ **Data Logic Error:** Critical devices ({critical_devices}) exceed active devices ({total_devices}). This indicates a data processing issue.")
     critical_devices = min(critical_devices, total_devices)  # Cap at total devices
 
 avg_health = sum(d['health_score'] for d in data) / len(data) if len(data) > 0 else 0
@@ -625,7 +625,7 @@ if anomaly_data:
     with col1:
         st.markdown(f"""
         <div class="status-critical">
-            <h3>­ƒÜ¿ {len(anomaly_data)} Anomalies Detected</h3>
+            <h3>🚨 {len(anomaly_data)} Anomalies Detected</h3>
             <p>Last {time_range} hours</p>
         </div>
         """, unsafe_allow_html=True)
@@ -634,7 +634,7 @@ if anomaly_data:
         critical_count = sum(1 for d in anomaly_data if d['status'] == 'Critical')
         st.markdown(f"""
         <div class="status-critical">
-            <h3>ÔÜá´©Å {critical_count} Critical</h3>
+            <h3>⚠️ {critical_count} Critical</h3>
             <p>Immediate attention needed</p>
         </div>
         """, unsafe_allow_html=True)
@@ -649,13 +649,13 @@ if anomaly_data:
         
         st.markdown(f"""
         <div class="status-warning">
-            <h3>­ƒÅ¡ {len(affected_devices)} Devices</h3>
+            <h3>🏭 {len(affected_devices)} Devices</h3>
             <p>Currently affected</p>
         </div>
         """, unsafe_allow_html=True)
     
     # Show anomalies
-    st.markdown("### ­ƒôï Anomaly Details")
+    st.markdown("### 📋 Anomaly Details")
     for i, anomaly in enumerate(anomaly_data[:10]):
         severity_class = "status-critical" if anomaly['status'] == 'Critical' else "status-warning"
         
