@@ -1,6 +1,6 @@
 """
-Simple IoT Predictive Maintenance Dashboard
-Python 3.13+ Compatible - Minimal Dependencies
+IoT Predictive Maintenance Dashboard
+Real-time monitoring for industrial equipment
 """
 
 import streamlit as st
@@ -10,7 +10,7 @@ import random
 import time
 from datetime import datetime, timedelta
 
-# Page configuration - ONLY ONE CALL
+# Setup the page
 st.set_page_config(
     page_title="🔧 IoT Predictive Maintenance Dashboard",
     page_icon="🔧",
@@ -18,7 +18,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Enhanced CSS for modern UI
+# Custom styling
 st.markdown("""
 <style>
     .main-header {
@@ -81,7 +81,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state
+# Set up session variables
 if 'data_refresh' not in st.session_state:
     st.session_state.data_refresh = datetime.now()
 if 'live_data' not in st.session_state:
@@ -89,14 +89,14 @@ if 'live_data' not in st.session_state:
 if 'simulation_running' not in st.session_state:
     st.session_state.simulation_running = False
 
-# Enhanced data generation with time range support
+# Generate sensor data
 @st.cache_data(ttl=60)
 def generate_iot_data(time_range_hours=24):
-    """Generate realistic IoT sensor data for specified time range"""
+    """Create sensor data for the dashboard"""
     np.random.seed(42)
     random.seed(42)
     
-    # Calculate data points based on time range
+    # Figure out how many data points we need
     if time_range_hours <= 24:
         data_points = time_range_hours  # 1 point per hour
         interval_hours = 1
@@ -121,7 +121,7 @@ def generate_iot_data(time_range_hours=24):
             device_type = device_types[device_id - 1]
             location = device_locations[device_id - 1]
             
-            # Realistic sensor patterns
+            # Create sensor readings
             temp_base = 25 + 10 * np.sin(2 * np.pi * hour / 24)
             if device_type == 'Motor':
                 temp_base += 5 + np.random.normal(0, 2)
@@ -130,23 +130,23 @@ def generate_iot_data(time_range_hours=24):
             else:
                 temp_base += np.random.normal(0, 1.5)
             
-            # Vibration with working hours pattern
+            # Vibration changes during work hours
             if 8 <= hour <= 18:
                 vib_base = 2.5 + np.random.normal(0, 0.8)
             else:
                 vib_base = 1.0 + np.random.normal(0, 0.3)
             
-            # Pressure with gradual wear
+            # Pressure increases over time (wear)
             pressure_base = 10 + (i / 24) * 3 + np.random.normal(0, 0.5)
             
-            # Current with load variations
+            # Current varies with load
             current_base = 15 + 5 * np.sin(2 * np.pi * hour / 12) + np.random.normal(0, 1)
             
             # Humidity
             humidity = 60 - (temp_base - 25) * 2 + np.random.normal(0, 5)
             humidity = max(0, min(100, humidity))
             
-            # Add anomalies (10% chance)
+            # Sometimes things go wrong
             is_anomaly = random.random() < 0.1
             if is_anomaly:
                 temp_base += random.uniform(10, 25)
@@ -154,7 +154,7 @@ def generate_iot_data(time_range_hours=24):
                 pressure_base += random.uniform(3, 8)
                 current_base += random.uniform(5, 15)
             
-            # Calculate health score
+            # How healthy is this device?
             health_score = max(0, min(100, 100 - (
                 (temp_base - 25) * 2 + 
                 vib_base * 10 + 

@@ -1,43 +1,41 @@
 # IoT Predictive Maintenance Dashboard
 
-A machine learning project I built to predict equipment failures in industrial IoT devices. The system monitors sensor data in real-time and uses anomaly detection algorithms to identify potential issues before they cause downtime.
+A real-time monitoring system for industrial equipment that predicts failures before they happen. Built with Python and Streamlit, it simulates sensor data from motors, pumps, compressors, and other industrial devices.
 
 ## What This Project Does
 
-I created this dashboard to solve a common problem in manufacturing - equipment failures that cost companies thousands in unplanned downtime. The system continuously monitors 5 different types of industrial equipment and alerts maintenance teams when something looks wrong.
+This dashboard monitors 5 industrial devices (motors, pumps, compressors, generators, turbines) and tracks their health in real-time. It shows temperature, vibration, pressure, current, and humidity readings, then calculates health scores and detects anomalies.
 
 ## Key Features
 
-- **Real-time monitoring** of temperature, vibration, pressure, current, and humidity sensors
-- **Anomaly detection** using machine learning algorithms (Isolation Forest, LSTM)
-- **Predictive alerts** that warn about potential failures 24-72 hours in advance
-- **Interactive dashboard** built with Streamlit for easy monitoring
-- **Maintenance recommendations** based on sensor patterns and health scores
+- **Live sensor monitoring** - temperature, vibration, pressure, current, humidity
+- **Health scoring** - calculates device health from 0-100%
+- **Anomaly detection** - finds unusual patterns in sensor data
+- **Real-time charts** - interactive visualizations of sensor readings
+- **Maintenance alerts** - warns when devices need attention
 
 ## How It Works
 
-1. **Data Collection**: Simulates sensor data from industrial equipment (motors, pumps, compressors, etc.)
-2. **Feature Engineering**: Creates time-based features and rolling statistics from raw sensor data
-3. **ML Models**: Uses multiple algorithms to detect anomalies in the sensor patterns
-4. **Alert System**: Sends notifications when equipment health scores drop below thresholds
-5. **Dashboard**: Provides real-time visualization and historical analysis
+1. **Sensor Simulation** - Creates realistic sensor data with daily patterns and noise
+2. **Health Calculation** - Combines sensor readings into a single health score
+3. **Anomaly Detection** - Identifies unusual patterns that might indicate problems
+4. **Live Updates** - Refreshes data every few seconds to show current status
+5. **Visualization** - Charts and metrics show device status at a glance
 
-## Technical Implementation
+## Technical Stack
 
-I built this using Python and focused on making it production-ready:
+- **Python 3.13+** - Core programming language
+- **Streamlit** - Web dashboard framework
+- **Pandas & NumPy** - Data processing and calculations
+- **Real-time simulation** - Live data updates every 5 seconds
 
-- **Backend**: Python with pandas for data processing
-- **ML Models**: Isolation Forest, LSTM Autoencoder, and ensemble methods
-- **Frontend**: Streamlit for the web interface
-- **Deployment**: Hosted on Streamlit Cloud for easy access
+## Dashboard Features
 
-## Results
-
-The system achieves:
-- 94% accuracy in anomaly detection
-- 30-50% reduction in unplanned downtime
-- $12,500+ monthly savings in maintenance costs
-- Real-time processing with <1 second latency
+- **5 Industrial Devices** - Motors, pumps, compressors, generators, turbines
+- **Real-time Monitoring** - Live sensor data updates
+- **Health Scoring** - 0-100% health ratings for each device
+- **Anomaly Detection** - Identifies unusual sensor patterns
+- **Interactive Charts** - Temperature, vibration, pressure, current trends
 
 ## Getting Started
 
@@ -54,7 +52,7 @@ pip install -r requirements.txt
 
 3. Run the dashboard
 ```bash
-streamlit run run_app.py
+streamlit run app.py
 ```
 
 4. Open your browser to `http://localhost:8501`
@@ -63,49 +61,34 @@ streamlit run run_app.py
 
 ```
 iot-predictive-maintenance/
-├── src/                    # Main source code
-│   ├── data_generator.py   # Simulates IoT sensor data
-│   ├── anomaly_detector.py # ML models for anomaly detection
-│   └── streamlit_app.py    # Dashboard application
-├── notebooks/             # Data analysis notebooks
-├── config/                # Configuration files
+├── app.py                 # Main dashboard application
 ├── requirements.txt       # Python dependencies
-└── run_app.py            # Main entry point
+├── README.md             # This file
+├── src/                  # Source code modules
+│   ├── data_generator.py # Sensor data simulation
+│   ├── anomaly_detector.py # ML models
+│   ├── data_processor.py # Data processing
+│   ├── streamlit_app.py  # Streamlit components
+│   └── utils.py          # Helper functions
+├── notebooks/            # Data analysis notebooks
+│   └── data_exploration.ipynb
+└── config/              # Configuration files
+    └── config.yaml
 ```
 
 ## Live Demo
 
 You can see the dashboard in action at: https://iot-predictive-maintenance.streamlit.app/
 
-## What I Learned
+## Features in Detail
 
-This project taught me a lot about:
-- Time series analysis and anomaly detection
-- Building production-ready ML applications
-- Real-time data processing and visualization
-- The challenges of industrial IoT data
+- **Real-time Data** - Simulates sensor readings with realistic patterns
+- **Health Monitoring** - Calculates device health from sensor data
+- **Anomaly Detection** - Finds unusual patterns that need attention
+- **Interactive Charts** - Live charts showing sensor trends
+- **Device Status** - Shows current status of all 5 devices
+- **Maintenance Alerts** - Recommends when devices need service
 
-## Future Improvements
+## Deployment
 
-Some ideas I have for enhancing this system:
-- Add more sensor types (acoustic, thermal imaging)
-- Implement federated learning for multi-site deployments
-- Add mobile app for field technicians
-- Integrate with existing maintenance management systems
-
-## Technologies Used
-
-- **Python** - Core programming language
-- **Streamlit** - Web application framework
-- **Pandas & NumPy** - Data manipulation
-- **Scikit-learn** - Machine learning algorithms
-- **TensorFlow** - Deep learning models
-- **Plotly** - Interactive visualizations
-
-## Contact
-
-Feel free to reach out if you have questions about this project or want to discuss IoT and machine learning!
-
----
-
-*This project was built as part of my learning journey in machine learning and IoT applications.*
+This dashboard is designed to run on Streamlit Cloud. The main file is `app.py` with minimal dependencies in `requirements.txt`.

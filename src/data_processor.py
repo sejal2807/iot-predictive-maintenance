@@ -1,6 +1,6 @@
 """
-Data Processing for IoT
-Feature engineering and data cleaning
+Data processing
+Cleans up and prepares sensor data
 """
 
 import pandas as pd
@@ -12,7 +12,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class IoTDataProcessor:
-    """Process and engineer features from IoT sensor data"""
+    """Processes sensor data and creates features"""
     
     def __init__(self):
         self.scalers = {}

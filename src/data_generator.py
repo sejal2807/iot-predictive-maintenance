@@ -1,6 +1,6 @@
 """
-IoT Sensor Data Generator
-Creates sample data for testing
+Sensor data generator
+Creates fake IoT data for the dashboard
 """
 
 import numpy as np
@@ -12,7 +12,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class IoTDataGenerator:
-    """Generate synthetic IoT sensor data with realistic patterns and anomalies"""
+    """Creates fake sensor data that looks real"""
     
     def __init__(self, seed: int = 42):
         np.random.seed(seed)
@@ -22,7 +22,7 @@ class IoTDataGenerator:
                            start_time: datetime, 
                            duration_hours: int = 24,
                            sampling_rate: int = 60) -> pd.DataFrame:
-        """Generate normal sensor readings with realistic patterns"""
+        """Create normal sensor data"""
         
         # Create time series
         end_time = start_time + timedelta(hours=duration_hours)

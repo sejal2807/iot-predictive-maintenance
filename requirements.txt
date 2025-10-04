@@ -1,5 +1,6 @@
-# Python 3.13+ Compatible Requirements
+# Streamlit Cloud Requirements (Python 3.13+ Compatible)
+# Minimal dependencies for reliable deployment
+
 streamlit>=1.39.0
-plotly>=5.22.0
 pandas>=2.2.0
 numpy>=1.26.0

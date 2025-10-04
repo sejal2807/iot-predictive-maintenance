@@ -1,6 +1,6 @@
 """
-Utility functions
-Helper functions for the project
+Helper functions
+Stuff that's useful across the project
 """
 
 import pandas as pd

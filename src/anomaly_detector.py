@@ -1,6 +1,6 @@
 """
-Anomaly Detection Models
-Different ML approaches for finding anomalies
+Anomaly detection
+Finds weird patterns in sensor data
 """
 
 import numpy as np
@@ -22,7 +22,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 class AnomalyDetector:
-    """Unified anomaly detection system with multiple algorithms"""
+    """Finds anomalies using different ML methods"""
     
     def __init__(self):
         self.models = {}
