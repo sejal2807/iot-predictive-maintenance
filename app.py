@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 IoT Predictive Maintenance Dashboard
 Real-time monitoring for industrial equipment
@@ -46,58 +45,42 @@ st.markdown("""
     
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.2rem 0.8rem;
+        padding: 1rem;
         border-radius: 12px;
         color: white;
         text-align: center;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        margin: 0.3rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        margin: 0.25rem;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
-        height: 130px;
+        height: 100px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         box-sizing: border-box;
         width: 100%;
-        position: relative;
-        overflow: hidden;
     }
     
     .metric-card h3 {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         font-weight: 600;
-        margin: 0;
-        opacity: 0.9;
-        letter-spacing: 0.02em;
+        margin-bottom: 0.3rem;
+        opacity: 0.95;
+        letter-spacing: 0.01em;
         text-align: center;
         width: 100%;
         line-height: 1.2;
-        color: white;
-        position: relative;
-        z-index: 2;
-        white-space: normal;
-        word-wrap: break-word;
-        max-width: 100%;
-        flex: 0 0 auto;
     }
     
     .metric-card h2 {
-        font-size: 2rem;
+        font-size: 1.6rem;
         font-weight: 700;
         margin: 0;
         letter-spacing: -0.01em;
         text-align: center;
         width: 100%;
-        line-height: 1;
-        color: white;
-        position: relative;
-        z-index: 2;
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        line-height: 1.1;
     }
     
     .status-normal {
@@ -200,22 +183,7 @@ st.markdown("""
     .stColumns > div {
         flex: 1;
         min-width: 0;
-        padding: 0.1rem;
-    }
-    
-    /* Ensure text stays within cards */
-    .metric-card * {
-        max-width: 100%;
-        word-wrap: break-word;
-        white-space: nowrap;
-    }
-    
-    /* Force proper card layout */
-    .metric-card {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
+        padding: 0.25rem;
     }
     
     /* Keep content within bounds */
