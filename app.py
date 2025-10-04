@@ -397,7 +397,6 @@ with col5:
     """, unsafe_allow_html=True)
 
 # Real-time charts
-st.subheader("📈 Real-Time Sensor Monitoring")
 
 df = pd.DataFrame(data)
 
@@ -420,6 +419,7 @@ with col1:
             st.line_chart(temp_data)
         else:
             st.warning("No temperature data available")
+            st.write("Temperature data info:", df['temperature'].describe())
     except Exception as e:
         st.error(f"Error creating temperature chart: {e}")
         st.write("DataFrame info:", df.info())
@@ -431,6 +431,7 @@ with col1:
             st.line_chart(vib_data)
         else:
             st.warning("No vibration data available")
+            st.write("Vibration data info:", df['vibration'].describe())
     except Exception as e:
         st.error(f"Error creating vibration chart: {e}")
 
@@ -442,8 +443,11 @@ with col2:
             st.line_chart(press_data)
         else:
             st.warning("No pressure data available")
+            # Debug: Show pressure data info
+            st.write("Pressure data info:", df['pressure'].describe())
     except Exception as e:
         st.error(f"Error creating pressure chart: {e}")
+        st.write("DataFrame pressure column:", df['pressure'].head())
     
     st.subheader("⚡ Current (A)")
     try:
@@ -452,6 +456,7 @@ with col2:
             st.line_chart(curr_data)
         else:
             st.warning("No current data available")
+            st.write("Current data info:", df['current'].describe())
     except Exception as e:
         st.error(f"Error creating current chart: {e}")
 
