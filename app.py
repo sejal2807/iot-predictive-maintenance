@@ -439,7 +439,6 @@ for i, (device_id, device_readings) in enumerate(device_data.items()):
         """, unsafe_allow_html=True)
 
 # Anomaly detection
-st.subheader("🔍 Anomaly Detection & Alerts")
 
 anomaly_data = [d for d in data if d['is_anomaly']]
 
@@ -464,11 +463,17 @@ if anomaly_data:
         """, unsafe_allow_html=True)
     
     with col3:
-        devices_affected = len(set(d['device_id'] for d in anomaly_data))
+        # Count only devices that are currently affected (not normal status)
+        affected_devices = set()
+        for device_id, device_readings in device_data.items():
+            latest_reading = device_readings[-1]
+            if latest_reading['status'] != 'Normal':
+                affected_devices.add(device_id)
+        
         st.markdown(f"""
         <div class="status-warning">
-            <h3>🏭 {devices_affected} Devices</h3>
-            <p>Affected by anomalies</p>
+            <h3>🏭 {len(affected_devices)} Devices</h3>
+            <p>Currently affected</p>
         </div>
         """, unsafe_allow_html=True)
     
