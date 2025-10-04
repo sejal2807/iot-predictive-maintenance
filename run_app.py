@@ -9,11 +9,19 @@ import time
 import math
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
-import plotly.express as px
 from datetime import datetime, timedelta
 import sys
 import os
+
+# Try to import plotly, fallback to basic charts if not available
+try:
+    import plotly.graph_objects as go
+    import plotly.express as px
+    from plotly.subplots import make_subplots
+    PLOTLY_AVAILABLE = True
+except ImportError:
+    PLOTLY_AVAILABLE = False
+    st.warning("⚠️ Plotly not available - using basic charts")
 
 # Add src directory to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
@@ -305,106 +313,118 @@ with device_col2:
 
 st.markdown("---")
 
-# Interactive charts with Plotly
+# Charts section with fallback
 st.subheader("📈 Real-Time Sensor Data")
 
 # Create DataFrame for easier plotting
 df = pd.DataFrame(data)
 
-# Temperature chart with anomaly highlighting
-fig_temp = go.Figure()
-fig_temp.add_trace(go.Scatter(
-    x=df['timestamp'],
-    y=df['temp'],
-    mode='lines+markers',
-    name='Temperature',
-    line=dict(color='blue', width=2),
-    hovertemplate='<b>Time:</b> %{x}<br><b>Temperature:</b> %{y}°C<extra></extra>'
-))
-
-# Highlight anomalies
-anomaly_data = df[df['anomaly'] == True]
-if not anomaly_data.empty:
+if PLOTLY_AVAILABLE:
+    # Interactive charts with Plotly
+    # Temperature chart with anomaly highlighting
+    fig_temp = go.Figure()
     fig_temp.add_trace(go.Scatter(
-        x=anomaly_data['timestamp'],
-        y=anomaly_data['temp'],
-        mode='markers',
-        name='Anomalies',
-        marker=dict(color='red', size=10, symbol='x'),
-        hovertemplate='<b>ANOMALY</b><br>Time: %{x}<br>Temperature: %{y}°C<extra></extra>'
+        x=df['timestamp'],
+        y=df['temp'],
+        mode='lines+markers',
+        name='Temperature',
+        line=dict(color='blue', width=2),
+        hovertemplate='<b>Time:</b> %{x}<br><b>Temperature:</b> %{y}°C<extra></extra>'
     ))
 
-fig_temp.update_layout(
-    title="🌡️ Temperature Monitoring",
-    xaxis_title="Time",
-    yaxis_title="Temperature (°C)",
-    height=300,
-    showlegend=True
-)
-st.plotly_chart(fig_temp, use_container_width=True)
+    # Highlight anomalies
+    anomaly_data = df[df['anomaly'] == True]
+    if not anomaly_data.empty:
+        fig_temp.add_trace(go.Scatter(
+            x=anomaly_data['timestamp'],
+            y=anomaly_data['temp'],
+            mode='markers',
+            name='Anomalies',
+            marker=dict(color='red', size=10, symbol='x'),
+            hovertemplate='<b>ANOMALY</b><br>Time: %{x}<br>Temperature: %{y}°C<extra></extra>'
+        ))
 
-# Vibration chart
-fig_vib = go.Figure()
-fig_vib.add_trace(go.Scatter(
-    x=df['timestamp'],
-    y=df['vib'],
-    mode='lines+markers',
-    name='Vibration',
-    line=dict(color='green', width=2),
-    hovertemplate='<b>Time:</b> %{x}<br><b>Vibration:</b> %{y} mm/s<extra></extra>'
-))
+    fig_temp.update_layout(
+        title="🌡️ Temperature Monitoring",
+        xaxis_title="Time",
+        yaxis_title="Temperature (°C)",
+        height=300,
+        showlegend=True
+    )
+    st.plotly_chart(fig_temp, use_container_width=True)
 
-# Add threshold lines
-fig_vib.add_hline(y=3, line_dash="dash", line_color="orange", annotation_text="Warning Threshold")
-fig_vib.add_hline(y=6, line_dash="dash", line_color="red", annotation_text="Critical Threshold")
+    # Vibration chart
+    fig_vib = go.Figure()
+    fig_vib.add_trace(go.Scatter(
+        x=df['timestamp'],
+        y=df['vib'],
+        mode='lines+markers',
+        name='Vibration',
+        line=dict(color='green', width=2),
+        hovertemplate='<b>Time:</b> %{x}<br><b>Vibration:</b> %{y} mm/s<extra></extra>'
+    ))
 
-fig_vib.update_layout(
-    title="📳 Vibration Monitoring",
-    xaxis_title="Time",
-    yaxis_title="Vibration (mm/s)",
-    height=300,
-    showlegend=True
-)
-st.plotly_chart(fig_vib, use_container_width=True)
+    # Add threshold lines
+    fig_vib.add_hline(y=3, line_dash="dash", line_color="orange", annotation_text="Warning Threshold")
+    fig_vib.add_hline(y=6, line_dash="dash", line_color="red", annotation_text="Critical Threshold")
 
-# Multi-sensor dashboard
-st.subheader("🔍 Multi-Sensor Dashboard")
+    fig_vib.update_layout(
+        title="📳 Vibration Monitoring",
+        xaxis_title="Time",
+        yaxis_title="Vibration (mm/s)",
+        height=300,
+        showlegend=True
+    )
+    st.plotly_chart(fig_vib, use_container_width=True)
 
-# Create subplots for all sensors
-from plotly.subplots import make_subplots
+    # Multi-sensor dashboard
+    st.subheader("🔍 Multi-Sensor Dashboard")
+    fig_multi = make_subplots(
+        rows=2, cols=2,
+        subplot_titles=('Temperature (°C)', 'Vibration (mm/s)', 'Pressure (bar)', 'Current (A)'),
+        vertical_spacing=0.1
+    )
 
-fig_multi = make_subplots(
-    rows=2, cols=2,
-    subplot_titles=('Temperature (°C)', 'Vibration (mm/s)', 'Pressure (bar)', 'Current (A)'),
-    vertical_spacing=0.1
-)
+    # Temperature
+    fig_multi.add_trace(
+        go.Scatter(x=df['timestamp'], y=df['temp'], mode='lines', name='Temperature', line=dict(color='blue')),
+        row=1, col=1
+    )
 
-# Temperature
-fig_multi.add_trace(
-    go.Scatter(x=df['timestamp'], y=df['temp'], mode='lines', name='Temperature', line=dict(color='blue')),
-    row=1, col=1
-)
+    # Vibration
+    fig_multi.add_trace(
+        go.Scatter(x=df['timestamp'], y=df['vib'], mode='lines', name='Vibration', line=dict(color='green')),
+        row=1, col=2
+    )
 
-# Vibration
-fig_multi.add_trace(
-    go.Scatter(x=df['timestamp'], y=df['vib'], mode='lines', name='Vibration', line=dict(color='green')),
-    row=1, col=2
-)
+    # Pressure
+    fig_multi.add_trace(
+        go.Scatter(x=df['timestamp'], y=df['press'], mode='lines', name='Pressure', line=dict(color='orange')),
+        row=2, col=1
+    )
 
-# Pressure
-fig_multi.add_trace(
-    go.Scatter(x=df['timestamp'], y=df['press'], mode='lines', name='Pressure', line=dict(color='orange')),
-    row=2, col=1
-)
+    # Current
+    fig_multi.add_trace(
+        go.Scatter(x=df['timestamp'], y=df['curr'], mode='lines', name='Current', line=dict(color='purple')),
+        row=2, col=2
+    )
 
-# Current
-fig_multi.add_trace(
-    go.Scatter(x=df['timestamp'], y=df['curr'], mode='lines', name='Current', line=dict(color='purple')),
-    row=2, col=2
-)
+    fig_multi.update_layout(height=600, showlegend=False)
+    st.plotly_chart(fig_multi, use_container_width=True)
 
-fig_multi.update_layout(height=600, showlegend=False)
-st.plotly_chart(fig_multi, use_container_width=True)
+else:
+    # Fallback to basic Streamlit charts
+    st.subheader("🌡️ Temperature Monitoring")
+    st.line_chart(df.set_index('timestamp')['temp'])
+    
+    st.subheader("📳 Vibration Monitoring")
+    st.line_chart(df.set_index('timestamp')['vib'])
+    
+    st.subheader("🔧 Pressure Monitoring")
+    st.line_chart(df.set_index('timestamp')['press'])
+    
+    st.subheader("⚡ Current Monitoring")
+    st.line_chart(df.set_index('timestamp')['curr'])
 
 st.markdown("---")
 
