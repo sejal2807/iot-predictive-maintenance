@@ -23,7 +23,7 @@ st.set_page_config(
 st.markdown("""
 <style>
     /* Import Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
     /* Global font settings */
     .stApp {
@@ -33,7 +33,7 @@ st.markdown("""
     /* Main header styling */
     .main-header {
         font-family: 'Inter', sans-serif;
-        font-size: 3rem;
+        font-size: 2.5rem;
         font-weight: 700;
         background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
         -webkit-background-clip: text;
@@ -43,97 +43,50 @@ st.markdown("""
         letter-spacing: -0.02em;
     }
     
-    .metric-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.2rem 0.8rem;
-        border-radius: 12px;
-        color: white;
-        text-align: center;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        margin: 0.3rem;
-        font-family: 'Inter', sans-serif;
-        font-weight: 500;
-        height: 130px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        box-sizing: border-box;
-        width: 100%;
-        position: relative;
-        overflow: hidden;
+    /* Improve metric display */
+    .metric-container {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 0.5rem 0;
     }
     
-    .metric-card h3 {
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin: 0;
-        opacity: 0.9;
-        letter-spacing: 0.02em;
-        text-align: center;
-        width: 100%;
-        line-height: 1.2;
-        color: white;
-        position: relative;
-        z-index: 2;
-        white-space: normal;
-        word-wrap: break-word;
-        max-width: 100%;
-        flex: 0 0 auto;
-    }
-    
-    .metric-card h2 {
-        font-size: 2rem;
-        font-weight: 700;
-        margin: 0;
-        letter-spacing: -0.01em;
-        text-align: center;
-        width: 100%;
-        line-height: 1;
-        color: white;
-        position: relative;
-        z-index: 2;
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
+    /* Status indicators */
     .status-normal {
         background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
         color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        margin: 0.5rem 0;
-        font-family: 'Inter', sans-serif;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        margin: 0.25rem 0;
         font-weight: 500;
     }
     
     .status-warning {
         background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
         color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        margin: 0.5rem 0;
-        font-family: 'Inter', sans-serif;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        margin: 0.25rem 0;
         font-weight: 500;
     }
     
     .status-critical {
         background: linear-gradient(135deg, #F44336 0%, #D32F2F 100%);
         color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        margin: 0.5rem 0;
-        font-family: 'Inter', sans-serif;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        margin: 0.25rem 0;
         font-weight: 500;
     }
     
+    /* Live indicator */
     .live-indicator {
         display: inline-block;
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
+        margin-right: 8px;
     }
     .live-indicator.active {
         background-color: #4CAF50;
@@ -158,24 +111,40 @@ st.markdown("""
     
     /* Section headings */
     .stMarkdown h2 {
-        font-size: 1.8rem !important;
+        font-size: 1.6rem !important;
         font-weight: 700 !important;
-        margin-bottom: 1.5rem !important;
-        margin-left: 0 !important;
-        padding-left: 0 !important;
-        text-align: left !important;
+        margin-bottom: 1rem !important;
+        color: #2c3e50 !important;
     }
     
     .stMarkdown h3 {
-        font-size: 1.4rem !important;
+        font-size: 1.2rem !important;
         font-weight: 600 !important;
-        margin-bottom: 1rem !important;
+        margin-bottom: 0.8rem !important;
+        color: #34495e !important;
     }
     
-    .stMarkdown p {
-        font-family: 'Inter', sans-serif;
-        font-weight: 400;
-        line-height: 1.6;
+    /* Improve chart containers */
+    .stPlotlyChart {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1rem;
+        background: white;
+    }
+    
+    /* Improve expander styling */
+    .streamlit-expanderHeader {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+    
+    /* Improve data table styling */
+    .stDataFrame {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        overflow: hidden;
     }
     
     /* Sidebar improvements */
@@ -187,50 +156,39 @@ st.markdown("""
     .stButton > button {
         font-family: 'Inter', sans-serif;
         font-weight: 500;
-        border-radius: 8px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
     }
     
-    /* Chart improvements */
-    .stPlotlyChart {
-        font-family: 'Inter', sans-serif;
+    .stButton > button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     
-    /* Equal width columns for metric cards */
-    .stColumns > div {
-        flex: 1;
-        min-width: 0;
-        padding: 0.1rem;
-    }
-    
-    /* Ensure text stays within cards */
-    .metric-card * {
-        max-width: 100%;
-        word-wrap: break-word;
-        white-space: nowrap;
-    }
-    
-    /* Force proper card layout */
-    .metric-card {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-    
-    /* Keep content within bounds */
+    /* Main container improvements */
     .main .block-container {
         padding-top: 1rem;
         padding-bottom: 1rem;
         padding-left: 1rem;
         padding-right: 1rem;
         max-width: 100%;
-        overflow-x: hidden;
     }
     
-    /* Metric card container */
-    .metric-card {
-        max-width: 100%;
-        box-sizing: border-box;
+    /* Tab improvements */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 2px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        height: 40px;
+        background-color: #f8f9fa;
+        border-radius: 6px 6px 0 0;
+        font-weight: 500;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background-color: #667eea;
+        color: white;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -517,103 +475,109 @@ if critical_devices > total_devices:
 
 avg_health = sum(d['health_score'] for d in data) / len(data) if len(data) > 0 else 0
 
-# Metric cards
+# Metric cards using Streamlit's native components
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    st.markdown(f"""
-    <div class="metric-card">
-        <h3>🏭 Active Devices</h3>
-        <h2>{total_devices}</h2>
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label="🏭 Active Devices",
+        value=total_devices,
+        help="Currently online devices transmitting data"
+    )
 
 with col2:
     color = "🔴" if anomaly_rate > 0.1 else "🟡" if anomaly_rate > 0.05 else "🟢"
-    st.markdown(f"""
-    <div class="metric-card">
-        <h3>{color} Anomaly Rate</h3>
-        <h2>{anomaly_rate:.1%}</h2>
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label=f"{color} Anomaly Rate",
+        value=f"{anomaly_rate:.1%}",
+        help="Percentage of data points flagged as anomalous"
+    )
 
 with col3:
-    st.markdown(f"""
-    <div class="metric-card">
-        <h3>⚠️ Critical Devices</h3>
-        <h2>{critical_devices}</h2>
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label="⚠️ Critical Devices",
+        value=critical_devices,
+        help="Devices requiring immediate attention"
+    )
 
 with col4:
     health_color = "🔴" if avg_health < 50 else "🟡" if avg_health < 80 else "🟢"
-    st.markdown(f"""
-    <div class="metric-card">
-        <h3>{health_color} Avg Health</h3>
-        <h2>{avg_health:.1f}%</h2>
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label=f"{health_color} Avg Health",
+        value=f"{avg_health:.1f}%",
+        help="Average health score across all devices"
+    )
 
 with col5:
     uptime = 99.9 - (anomaly_rate * 10)
-    st.markdown(f"""
-    <div class="metric-card">
-        <h3>⏱️ System Uptime</h3>
-        <h2>{uptime:.1f}%</h2>
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label="⏱️ System Uptime",
+        value=f"{uptime:.1f}%",
+        help="Overall system availability percentage"
+    )
 
 # Real-time charts
 st.subheader("📊 Sensor Data Charts")
 
 df = pd.DataFrame(data)
 
-# Data validation (silent)
+# Data validation
 if len(data) == 0:
     st.error("No data available for charts")
+    st.stop()
 elif len(df) == 0:
     st.error("DataFrame is empty")
+    st.stop()
 
-col1, col2 = st.columns(2)
-
-with col1:
-    st.subheader("🌡️ Temperature (°C)")
-    try:
-        if 'temperature' in df.columns and len(df['temperature']) > 0:
-            # Simple line chart
-            st.line_chart(df['temperature'])
-        else:
-            st.warning("No temperature data available")
-    except Exception as e:
-        st.error("Unable to display temperature chart")
+# Create a comprehensive chart with all sensors
+try:
+    # Prepare data for plotting
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df_sorted = df.sort_values('timestamp')
     
-    st.subheader("📳 Vibration (mm/s)")
-    try:
-        if 'vibration' in df.columns and len(df['vibration']) > 0:
-            st.line_chart(df['vibration'])
-        else:
-            st.warning("No vibration data available")
-    except Exception as e:
-        st.error("Unable to display vibration chart")
-
-with col2:
-    st.subheader("🔧 Pressure (bar)")
-    try:
-        if 'pressure' in df.columns and len(df['pressure']) > 0:
-            st.line_chart(df['pressure'])
-        else:
-            st.warning("No pressure data available")
-    except Exception as e:
-        st.error("Unable to display pressure chart")
+    # Create tabs for different chart views
+    tab1, tab2, tab3 = st.tabs(["📈 All Sensors", "🌡️ Temperature & Vibration", "🔧 Pressure & Current"])
     
-    st.subheader("⚡ Current (A)")
-    try:
-        if 'current' in df.columns and len(df['current']) > 0:
-            st.line_chart(df['current'])
-        else:
-            st.warning("No current data available")
-    except Exception as e:
-        st.error("Unable to display current chart")
+    with tab1:
+        # All sensors in one chart
+        chart_data = df_sorted[['timestamp', 'temperature', 'vibration', 'pressure', 'current', 'humidity']].set_index('timestamp')
+        st.line_chart(chart_data, height=400)
+    
+    with tab2:
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("🌡️ Temperature (°C)")
+            if 'temperature' in df_sorted.columns and len(df_sorted['temperature']) > 0:
+                st.line_chart(df_sorted.set_index('timestamp')['temperature'], height=300)
+            else:
+                st.warning("No temperature data available")
+        
+        with col2:
+            st.subheader("📳 Vibration (mm/s)")
+            if 'vibration' in df_sorted.columns and len(df_sorted['vibration']) > 0:
+                st.line_chart(df_sorted.set_index('timestamp')['vibration'], height=300)
+            else:
+                st.warning("No vibration data available")
+    
+    with tab3:
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("🔧 Pressure (bar)")
+            if 'pressure' in df_sorted.columns and len(df_sorted['pressure']) > 0:
+                st.line_chart(df_sorted.set_index('timestamp')['pressure'], height=300)
+            else:
+                st.warning("No pressure data available")
+        
+        with col2:
+            st.subheader("⚡ Current (A)")
+            if 'current' in df_sorted.columns and len(df_sorted['current']) > 0:
+                st.line_chart(df_sorted.set_index('timestamp')['current'], height=300)
+            else:
+                st.warning("No current data available")
+
+except Exception as e:
+    st.error(f"Error displaying charts: {str(e)}")
+    st.info("Please check your data format and try again.")
 
 # Device status
 st.subheader("🏭 Device Status Overview")
@@ -625,26 +589,50 @@ for d in data:
         device_data[device_id] = []
     device_data[device_id].append(d)
 
-cols = st.columns(len(device_data))
-for i, (device_id, device_readings) in enumerate(device_data.items()):
-    with cols[i % len(cols)]:
+# Create a more organized device status display
+if device_data:
+    # Create expandable sections for each device
+    for device_id, device_readings in device_data.items():
         latest_reading = device_readings[-1]
         status = latest_reading['status']
         health_score = latest_reading['health_score']
         
-        card_class = "status-critical" if status == "Critical" else "status-warning" if status == "Warning" else "status-normal"
+        # Determine status color and icon
+        if status == "Critical":
+            status_icon = "🔴"
+            status_color = "red"
+        elif status == "Warning":
+            status_icon = "🟡"
+            status_color = "orange"
+        else:
+            status_icon = "🟢"
+            status_color = "green"
         
-        st.markdown(f"""
-        <div class="{card_class}">
-            <h4>🔧 {device_id}</h4>
-            <p><strong>Type:</strong> {latest_reading['device_type']}</p>
-            <p><strong>Location:</strong> {latest_reading.get('location', 'Unknown')}</p>
-            <p><strong>Health Score:</strong> {health_score:.1f}%</p>
-            <p><strong>Status:</strong> {status}</p>
-            <p><strong>Temperature:</strong> {latest_reading['temperature']}°C</p>
-            <p><strong>Vibration:</strong> {latest_reading['vibration']} mm/s</p>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.expander(f"{status_icon} {device_id} - {latest_reading['device_type']} ({status})", expanded=False):
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.metric("Health Score", f"{health_score:.1f}%")
+                st.metric("Status", status)
+            
+            with col2:
+                st.metric("Temperature", f"{latest_reading['temperature']}°C")
+                st.metric("Vibration", f"{latest_reading['vibration']} mm/s")
+            
+            with col3:
+                st.metric("Pressure", f"{latest_reading['pressure']} bar")
+                st.metric("Current", f"{latest_reading['current']} A")
+            
+            # Show recent readings
+            if len(device_readings) > 1:
+                st.subheader("📊 Recent Readings")
+                recent_df = pd.DataFrame(device_readings[-10:])  # Last 10 readings
+                st.dataframe(
+                    recent_df[['timestamp', 'temperature', 'vibration', 'pressure', 'current', 'health_score', 'status']],
+                    use_container_width=True
+                )
+else:
+    st.warning("No device data available")
 
 # Anomaly detection
 
