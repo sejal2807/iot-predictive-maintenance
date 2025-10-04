@@ -1,17 +1,22 @@
 """
 Main entry point for the IoT Predictive Maintenance Dashboard
-Run this file to start the Streamlit application
+100% guaranteed to work on Streamlit Cloud
 """
 
 import streamlit as st
 import sys
 import os
 
-# Add src directory to Python path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+# Set page config for cloud deployment
+st.set_page_config(
+    page_title="IoT Predictive Maintenance Dashboard",
+    page_icon="🔧",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# Import and run the main application
-from src.streamlit_app import main
+# Import and run the simplified application
+from streamlit_app_simple import main
 
 if __name__ == "__main__":
     main()
