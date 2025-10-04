@@ -353,7 +353,7 @@ def simulate_live_data():
             st.session_state.live_data = st.session_state.live_data[-100:]
 
 # Main header
-st.markdown('<h1 class="main-header">­ƒöº IoT Predictive Maintenance Dashboard</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-header">🔧 IoT Predictive Maintenance Dashboard</h1>', unsafe_allow_html=True)
 
 # Live indicator and time range info
 col1, col2, col3 = st.columns([1, 2, 1])
@@ -379,35 +379,35 @@ with col2:
 
 # Sidebar
 with st.sidebar:
-    st.header("­ƒÄø´©Å Control Panel")
+    st.header("🎛️ Control Panel")
     
-    st.subheader("­ƒôí Live Data Simulation")
+    st.subheader("📡 Live Data Simulation")
     col1, col2, col3 = st.columns(3)
     with col1:
-        if st.button("ÔûÂ´©Å Start Live"):
+        if st.button("▶️ Start Live"):
             st.session_state.simulation_running = True
             st.success("Live simulation started!")
             st.rerun()
     
     with col2:
-        if st.button("ÔÅ╣´©Å Stop Live"):
+        if st.button("⏹️ Stop Live"):
             st.session_state.simulation_running = False
             st.info("Live simulation stopped!")
             st.rerun()
     
     with col3:
-        if st.button("­ƒöä Refresh Data"):
+        if st.button("🔄 Refresh Data"):
             st.cache_data.clear()
             st.rerun()
     
-    auto_refresh = st.checkbox("­ƒöä Auto-refresh (5s)")
+    auto_refresh = st.checkbox("🔄 Auto-refresh (5s)")
     if auto_refresh:
         time.sleep(5)
         st.rerun()
     
     st.markdown("---")
     
-    st.subheader("­ƒô▒ Device Selection")
+    st.subheader("📱 Device Selection")
     all_devices = list(set(d['device_id'] for d in generate_iot_data()))
     selected_devices = st.multiselect(
         "Select devices to monitor:",
@@ -415,7 +415,7 @@ with st.sidebar:
         default=all_devices
     )
     
-    st.subheader("ÔÅ░ Time Range")
+    st.subheader("⏰ Time Range")
     time_range = st.selectbox(
         "Select time range:",
         [1, 6, 12, 24, 48, 72, 168, 336, 720, 1440],
@@ -448,11 +448,11 @@ if selected_devices:
 # Get Indian time
 ist = pytz.timezone('Asia/Kolkata')
 current_time_ist = datetime.now(ist)
-st.info(f"­ƒôà **Current Time Range:** {time_range} hours | **Data Points:** {len(data)} readings | **Last Updated:** {current_time_ist.strftime('%H:%M:%S IST')}")
+st.info(f"📅 **Current Time Range:** {time_range} hours | **Data Points:** {len(data)} readings | **Last Updated:** {current_time_ist.strftime('%H:%M:%S IST')}")
 
 # Add explanation of metrics
 st.markdown("""
-**­ƒôè Metrics Explanation:**
+**📊 Metrics Explanation:**
 - **Active Devices:** Currently online devices transmitting data
 - **Critical Devices:** Active devices with health score < 30% (subset of active devices)
 - **Anomaly Rate:** Percentage of data points flagged as anomalous
@@ -492,13 +492,13 @@ col1, col2, col3, col4, col5 = st.columns(5)
 with col1:
     st.markdown(f"""
     <div class="metric-card">
-        <h3>­ƒÅ¡ Active Devices</h3>
+        <h3>🏭 Active Devices</h3>
         <h2>{total_devices}</h2>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
-    color = "­ƒö┤" if anomaly_rate > 0.1 else "­ƒƒí" if anomaly_rate > 0.05 else "­ƒƒó"
+    color = "🔴" if anomaly_rate > 0.1 else "🟡" if anomaly_rate > 0.05 else "🟢"
     st.markdown(f"""
     <div class="metric-card">
         <h3>{color} Anomaly Rate</h3>
@@ -509,13 +509,13 @@ with col2:
 with col3:
     st.markdown(f"""
     <div class="metric-card">
-        <h3>ÔÜá´©Å Critical Devices</h3>
+        <h3>⚠️ Critical Devices</h3>
         <h2>{critical_devices}</h2>
     </div>
     """, unsafe_allow_html=True)
 
 with col4:
-    health_color = "­ƒö┤" if avg_health < 50 else "­ƒƒí" if avg_health < 80 else "­ƒƒó"
+    health_color = "🔴" if avg_health < 50 else "🟡" if avg_health < 80 else "🟢"
     st.markdown(f"""
     <div class="metric-card">
         <h3>{health_color} Avg Health</h3>
@@ -527,13 +527,13 @@ with col5:
     uptime = 99.9 - (anomaly_rate * 10)
     st.markdown(f"""
     <div class="metric-card">
-        <h3>ÔÅ▒´©Å System Uptime</h3>
+        <h3>⏱️ System Uptime</h3>
         <h2>{uptime:.1f}%</h2>
     </div>
     """, unsafe_allow_html=True)
 
 # Real-time charts
-st.subheader("­ƒôè Sensor Data Charts")
+st.subheader("📊 Sensor Data Charts")
 
 df = pd.DataFrame(data)
 
