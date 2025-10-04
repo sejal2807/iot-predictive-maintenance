@@ -1,4 +1,6 @@
 # Python 3.13+ Compatible Requirements
+# Updated versions that work with Python 3.13.7
+
 streamlit>=1.39.0
 plotly>=5.22.0
 pandas>=2.2.0

@@ -19,7 +19,21 @@ def main():
         print(f"✅ Streamlit {streamlit.__version__} found")
     except ImportError:
         print("❌ Streamlit not found. Installing dependencies...")
-        subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements_enhanced.txt"])
+        print("🔧 Using Python 3.13+ compatible versions...")
+        
+        # Try minimal requirements first
+        try:
+            subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements_minimal.txt"], check=True)
+            print("✅ Minimal dependencies installed successfully")
+        except subprocess.CalledProcessError:
+            print("⚠️ Minimal install failed, trying enhanced requirements...")
+            try:
+                subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements_enhanced.txt"], check=True)
+                print("✅ Enhanced dependencies installed successfully")
+            except subprocess.CalledProcessError:
+                print("❌ Failed to install dependencies. Please install manually:")
+                print("   pip install streamlit plotly pandas numpy")
+                return
     
     # Start the enhanced dashboard
     print("🚀 Launching Enhanced Dashboard...")

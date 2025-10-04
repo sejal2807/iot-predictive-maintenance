@@ -1,0 +1,7 @@
+# Minimal requirements for Python 3.13+ compatibility
+# These versions are guaranteed to work with Python 3.13.7
+
+streamlit
+plotly
+pandas
+numpy
