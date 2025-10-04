@@ -75,7 +75,7 @@ iot-predictive-maintenance/
 
 ## Live Demo
 
-You can see the dashboard in action at: [Your Streamlit Cloud URL]
+You can see the dashboard in action at: https://iot-predictive-maintenance.streamlit.app/
 
 ## What I Learned
 
