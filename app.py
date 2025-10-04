@@ -585,7 +585,7 @@ with col2:
         st.error("Unable to display current chart")
 
 # Device status
-st.subheader("­ƒÅ¡ Device Status Overview")
+st.subheader("🏭 Device Status Overview")
 
 device_data = {}
 for d in data:
@@ -884,22 +884,22 @@ with col2:
     """)
 
 # Add performance improvement suggestions
-st.markdown("### ­ƒÆí Performance Improvement Suggestions")
+st.markdown("### 💡 Performance Improvement Suggestions")
 
 improvement_suggestions = [
-    "­ƒöº **Feature Engineering:** Add more sensor interaction features",
-    "­ƒôè **Data Augmentation:** Increase training data diversity", 
-    "­ƒñû **Model Ensemble:** Combine multiple ML algorithms",
-    "ÔÜí **Real-time Learning:** Implement online learning capabilities",
-    "­ƒôê **Hyperparameter Tuning:** Optimize model parameters",
-    "­ƒöì **Anomaly Validation:** Manual verification of predictions"
+    "🔧 **Feature Engineering:** Add more sensor interaction features",
+    "📊 **Data Augmentation:** Increase training data diversity", 
+    "🤖 **Model Ensemble:** Combine multiple ML algorithms",
+    "⚡ **Real-time Learning:** Implement online learning capabilities",
+    "📈 **Hyperparameter Tuning:** Optimize model parameters",
+    "🔍 **Anomaly Validation:** Manual verification of predictions"
 ]
 
 for suggestion in improvement_suggestions:
     st.write(suggestion)
 
 # Maintenance recommendations
-st.subheader("­ƒöº Predictive Maintenance Recommendations")
+st.subheader("🔧 Predictive Maintenance Recommendations")
 
 recommendations = []
 for device_id, device_readings in device_data.items():
@@ -907,27 +907,27 @@ for device_id, device_readings in device_data.items():
     avg_health = sum(d['health_score'] for d in device_readings) / len(device_readings)
     
     if latest['status'] == 'Critical':
-        recommendations.append(f"­ƒÜ¿ **{device_id}** ({latest['device_type']}): CRITICAL - Health score {latest['health_score']:.1f}% - Immediate maintenance required")
+        recommendations.append(f"🚨 **{device_id}** ({latest['device_type']}): CRITICAL - Health score {latest['health_score']:.1f}% - Immediate maintenance required")
     elif latest['status'] == 'Warning':
-        recommendations.append(f"ÔÜá´©Å **{device_id}** ({latest['device_type']}): WARNING - Health score {latest['health_score']:.1f}% - Schedule maintenance soon")
+        recommendations.append(f"⚠️ **{device_id}** ({latest['device_type']}): WARNING - Health score {latest['health_score']:.1f}% - Schedule maintenance soon")
     elif avg_health < 80:
-        recommendations.append(f"Ôä╣´©Å **{device_id}** ({latest['device_type']}): Monitor - Average health {avg_health:.1f}% - Consider preventive maintenance")
+        recommendations.append(f"ℹ️ **{device_id}** ({latest['device_type']}): Monitor - Average health {avg_health:.1f}% - Consider preventive maintenance")
 
 if recommendations:
     for rec in recommendations[:10]:
         st.info(rec)
 else:
-    st.success("Ô£à All devices operating within normal parameters - No maintenance required")
+    st.success("✅ All devices operating within normal parameters - No maintenance required")
 
 # Footer
 st.markdown("---")
-st.markdown("### ­ƒôè System Information")
+st.markdown("### 📊 System Information")
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown("""
-    **­ƒöº System Status**
+    **🔧 System Status**
     - Data Source: Industrial IoT Sensors
     - Update Frequency: Real-time
     - Monitoring: 24/7 Continuous
@@ -935,7 +935,7 @@ with col1:
 
 with col2:
     st.markdown(f"""
-    **­ƒôê Performance Metrics**
+    **📈 Performance Metrics**
     - Data Points: {len(data):,} readings
     - Devices Monitored: {total_devices:,}
     - Uptime: {99.9 - (anomaly_rate * 10):.1f}%
@@ -944,7 +944,7 @@ with col2:
 
 with col3:
     st.markdown("""
-    **­ƒøá´©Å Technical Details**
+    **🛠️ Technical Details**
     - Framework: Streamlit
     - Data Processing: Real-time Analytics
     - Visualization: Interactive Charts
@@ -958,4 +958,4 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 st.markdown("---")
-st.markdown("**Built with ÔØñ´©Å for IoT Predictive Maintenance**")
+st.markdown("**Built with ❤️ for IoT Predictive Maintenance**")
