@@ -461,7 +461,7 @@ st.markdown("""
 """)
 
 # Metrics dashboard
-st.subheader("­ƒôè System Overview")
+st.subheader("📊 System Overview")
 
 # Calculate metrics with proper logic
 total_devices = len(set(d['device_id'] for d in data))
@@ -546,7 +546,7 @@ elif len(df) == 0:
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("­ƒîí´©Å Temperature (┬░C)")
+    st.subheader("🌡️ Temperature (°C)")
     try:
         if 'temperature' in df.columns and len(df['temperature']) > 0:
             # Simple line chart
@@ -566,7 +566,7 @@ with col1:
         st.error("Unable to display vibration chart")
 
 with col2:
-    st.subheader("­ƒöº Pressure (bar)")
+    st.subheader("🔧 Pressure (bar)")
     try:
         if 'pressure' in df.columns and len(df['pressure']) > 0:
             st.line_chart(df['pressure'])
@@ -605,12 +605,12 @@ for i, (device_id, device_readings) in enumerate(device_data.items()):
         
         st.markdown(f"""
         <div class="{card_class}">
-            <h4>­ƒöº {device_id}</h4>
+            <h4>🔧 {device_id}</h4>
             <p><strong>Type:</strong> {latest_reading['device_type']}</p>
             <p><strong>Location:</strong> {latest_reading.get('location', 'Unknown')}</p>
             <p><strong>Health Score:</strong> {health_score:.1f}%</p>
             <p><strong>Status:</strong> {status}</p>
-            <p><strong>Temperature:</strong> {latest_reading['temperature']}┬░C</p>
+            <p><strong>Temperature:</strong> {latest_reading['temperature']}°C</p>
             <p><strong>Vibration:</strong> {latest_reading['vibration']} mm/s</p>
         </div>
         """, unsafe_allow_html=True)
@@ -661,11 +661,11 @@ if anomaly_data:
         
         st.markdown(f"""
         <div class="{severity_class}">
-            <h4>­ƒÜ¿ Anomaly #{i+1} - {anomaly['device_id']} ({anomaly['device_type']})</h4>
+            <h4>🚨 Anomaly #{i+1} - {anomaly['device_id']} ({anomaly['device_type']})</h4>
             <p><strong>Time:</strong> {anomaly['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}</p>
             <p><strong>Status:</strong> {anomaly['status']}</p>
             <p><strong>Health Score:</strong> {anomaly['health_score']:.1f}%</p>
-            <p><strong>Temperature:</strong> {anomaly['temperature']}┬░C | <strong>Vibration:</strong> {anomaly['vibration']} mm/s</p>
+            <p><strong>Temperature:</strong> {anomaly['temperature']}°C | <strong>Vibration:</strong> {anomaly['vibration']} mm/s</p>
         </div>
         """, unsafe_allow_html=True)
 else:
