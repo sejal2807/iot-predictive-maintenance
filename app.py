@@ -56,10 +56,11 @@ st.markdown("""
     }
     
     .metric-card h3 {
-        font-size: 0.9rem;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-        opacity: 0.9;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+        opacity: 0.95;
+        letter-spacing: 0.02em;
     }
     
     .metric-card h2 {
@@ -124,6 +125,19 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
         font-weight: 600;
         letter-spacing: -0.01em;
+    }
+    
+    /* Section headings */
+    .stMarkdown h2 {
+        font-size: 1.8rem !important;
+        font-weight: 700 !important;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .stMarkdown h3 {
+        font-size: 1.4rem !important;
+        font-weight: 600 !important;
+        margin-bottom: 1rem !important;
     }
     
     .stMarkdown p {
