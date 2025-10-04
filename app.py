@@ -22,14 +22,25 @@ st.set_page_config(
 # Custom styling
 st.markdown("""
 <style>
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    
+    /* Global font settings */
+    .stApp {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* Main header styling */
     .main-header {
+        font-family: 'Inter', sans-serif;
         font-size: 3rem;
-        font-weight: bold;
+        font-weight: 700;
         background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: center;
         margin-bottom: 2rem;
+        letter-spacing: -0.02em;
     }
     
     .metric-card {
@@ -40,6 +51,22 @@ st.markdown("""
         text-align: center;
         box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         margin: 0.5rem 0;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+    }
+    
+    .metric-card h3 {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        opacity: 0.9;
+    }
+    
+    .metric-card h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: -0.01em;
     }
     
     .status-normal {
@@ -48,6 +75,8 @@ st.markdown("""
         padding: 1rem;
         border-radius: 10px;
         margin: 0.5rem 0;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
     }
     
     .status-warning {
@@ -56,6 +85,8 @@ st.markdown("""
         padding: 1rem;
         border-radius: 10px;
         margin: 0.5rem 0;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
     }
     
     .status-critical {
@@ -64,6 +95,8 @@ st.markdown("""
         padding: 1rem;
         border-radius: 10px;
         margin: 0.5rem 0;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
     }
     
     .live-indicator {
@@ -84,6 +117,36 @@ st.markdown("""
     @keyframes blink {
         0%, 50% { opacity: 1; }
         51%, 100% { opacity: 0.3; }
+    }
+    
+    /* Typography improvements */
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+    }
+    
+    .stMarkdown p {
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        line-height: 1.6;
+    }
+    
+    /* Sidebar improvements */
+    .css-1d391kg {
+        font-family: 'Inter', sans-serif;
+    }
+    
+    /* Button improvements */
+    .stButton > button {
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+    
+    /* Chart improvements */
+    .stPlotlyChart {
+        font-family: 'Inter', sans-serif;
     }
 </style>
 """, unsafe_allow_html=True)
