@@ -45,18 +45,18 @@ st.markdown("""
     
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.5rem;
-        border-radius: 15px;
+        padding: 1.2rem 0.8rem;
+        border-radius: 12px;
         color: white;
         text-align: center;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        margin: 0.5rem 0;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        margin: 0.3rem;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
-        height: 160px;
+        height: 130px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         box-sizing: border-box;
         width: 100%;
@@ -65,33 +65,38 @@ st.markdown("""
     }
     
     .metric-card h3 {
-        font-size: 1rem;
+        font-size: 0.85rem;
         font-weight: 600;
-        margin-bottom: 0.8rem;
-        opacity: 0.95;
-        letter-spacing: 0.01em;
+        margin: 0;
+        opacity: 0.9;
+        letter-spacing: 0.02em;
         text-align: center;
         width: 100%;
-        line-height: 1.3;
+        line-height: 1.2;
         color: white;
         position: relative;
         z-index: 2;
         white-space: normal;
         word-wrap: break-word;
-        max-width: 90%;
+        max-width: 100%;
+        flex: 0 0 auto;
     }
     
     .metric-card h2 {
-        font-size: 2.2rem;
+        font-size: 2rem;
         font-weight: 700;
         margin: 0;
         letter-spacing: -0.01em;
         text-align: center;
         width: 100%;
-        line-height: 1.1;
+        line-height: 1;
         color: white;
         position: relative;
         z-index: 2;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .status-normal {
@@ -194,7 +199,7 @@ st.markdown("""
     .stColumns > div {
         flex: 1;
         min-width: 0;
-        padding: 0.25rem;
+        padding: 0.1rem;
     }
     
     /* Ensure text stays within cards */
@@ -518,7 +523,7 @@ col1, col2, col3, col4, col5 = st.columns(5)
 with col1:
     st.markdown(f"""
     <div class="metric-card">
-        <h3>🏭 Active<br>Devices</h3>
+        <h3>🏭 Active Devices</h3>
         <h2>{total_devices}</h2>
     </div>
     """, unsafe_allow_html=True)
@@ -527,7 +532,7 @@ with col2:
     color = "🔴" if anomaly_rate > 0.1 else "🟡" if anomaly_rate > 0.05 else "🟢"
     st.markdown(f"""
     <div class="metric-card">
-        <h3>{color} Anomaly<br>Rate</h3>
+        <h3>{color} Anomaly Rate</h3>
         <h2>{anomaly_rate:.1%}</h2>
     </div>
     """, unsafe_allow_html=True)
@@ -535,7 +540,7 @@ with col2:
 with col3:
     st.markdown(f"""
     <div class="metric-card">
-        <h3>⚠️ Critical<br>Devices</h3>
+        <h3>⚠️ Critical Devices</h3>
         <h2>{critical_devices}</h2>
     </div>
     """, unsafe_allow_html=True)
@@ -544,7 +549,7 @@ with col4:
     health_color = "🔴" if avg_health < 50 else "🟡" if avg_health < 80 else "🟢"
     st.markdown(f"""
     <div class="metric-card">
-        <h3>{health_color} Avg<br>Health</h3>
+        <h3>{health_color} Avg Health</h3>
         <h2>{avg_health:.1f}%</h2>
     </div>
     """, unsafe_allow_html=True)
@@ -553,7 +558,7 @@ with col5:
     uptime = 99.9 - (anomaly_rate * 10)
     st.markdown(f"""
     <div class="metric-card">
-        <h3>⏱️ System<br>Uptime</h3>
+        <h3>⏱️ System Uptime</h3>
         <h2>{uptime:.1f}%</h2>
     </div>
     """, unsafe_allow_html=True)
