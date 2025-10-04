@@ -400,13 +400,11 @@ with col5:
 
 df = pd.DataFrame(data)
 
-# Debug: Check if data exists
+# Data validation (silent)
 if len(data) == 0:
     st.error("No data available for charts")
 elif len(df) == 0:
     st.error("DataFrame is empty")
-else:
-    st.info(f"Data loaded: {len(df)} rows, columns: {list(df.columns)}")
 
 # Create charts using Streamlit's built-in charts
 col1, col2 = st.columns(2)
@@ -414,49 +412,47 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("🌡️ Temperature (°C)")
     try:
-        temp_data = df.set_index('timestamp')['temperature']
+        # Create a simple line chart without timestamp index
+        temp_data = df[['timestamp', 'temperature']].copy()
+        temp_data = temp_data.set_index('timestamp')
         if not temp_data.empty:
             st.line_chart(temp_data)
         else:
             st.warning("No temperature data available")
-            st.write("Temperature data info:", df['temperature'].describe())
     except Exception as e:
         st.error(f"Error creating temperature chart: {e}")
-        st.write("DataFrame info:", df.info())
     
     st.subheader("📳 Vibration (mm/s)")
     try:
-        vib_data = df.set_index('timestamp')['vibration']
+        vib_data = df[['timestamp', 'vibration']].copy()
+        vib_data = vib_data.set_index('timestamp')
         if not vib_data.empty:
             st.line_chart(vib_data)
         else:
             st.warning("No vibration data available")
-            st.write("Vibration data info:", df['vibration'].describe())
     except Exception as e:
         st.error(f"Error creating vibration chart: {e}")
 
 with col2:
     st.subheader("🔧 Pressure (bar)")
     try:
-        press_data = df.set_index('timestamp')['pressure']
+        press_data = df[['timestamp', 'pressure']].copy()
+        press_data = press_data.set_index('timestamp')
         if not press_data.empty:
             st.line_chart(press_data)
         else:
             st.warning("No pressure data available")
-            # Debug: Show pressure data info
-            st.write("Pressure data info:", df['pressure'].describe())
     except Exception as e:
         st.error(f"Error creating pressure chart: {e}")
-        st.write("DataFrame pressure column:", df['pressure'].head())
     
     st.subheader("⚡ Current (A)")
     try:
-        curr_data = df.set_index('timestamp')['current']
+        curr_data = df[['timestamp', 'current']].copy()
+        curr_data = curr_data.set_index('timestamp')
         if not curr_data.empty:
             st.line_chart(curr_data)
         else:
             st.warning("No current data available")
-            st.write("Current data info:", df['current'].describe())
     except Exception as e:
         st.error(f"Error creating current chart: {e}")
 
@@ -701,13 +697,38 @@ for d in data:
     if d['temperature'] < -50 or d['temperature'] > 100:
         data_integrity_issues.append(f"Unrealistic temperature in {d['device_id']}: {d['temperature']}°C")
     
-    if d['vibration'] < 0 or d['vibration'] > 20:
+    if d['vibration'] < 0 or d['vibration'] > 200:  # Updated threshold for scaled values
         data_integrity_issues.append(f"Unrealistic vibration in {d['device_id']}: {d['vibration']} mm/s")
 
 if data_integrity_issues:
     st.warning(f"⚠️ Found {len(data_integrity_issues)} data integrity issues")
     for issue in data_integrity_issues[:5]:  # Show first 5 issues
         st.write(f"• {issue}")
+    
+    # Export functionality
+    if st.button("📊 Export Anomaly Data to CSV"):
+        anomaly_data = []
+        for issue in data_integrity_issues:
+            parts = issue.split(": ")
+            if len(parts) == 2:
+                device_info = parts[0].replace("Unrealistic vibration in ", "").replace("Unrealistic temperature in ", "")
+                value_info = parts[1]
+                anomaly_data.append({
+                    'Device': device_info,
+                    'Issue_Type': 'Vibration' if 'vibration' in issue else 'Temperature',
+                    'Value': value_info,
+                    'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                })
+        
+        if anomaly_data:
+            anomaly_df = pd.DataFrame(anomaly_data)
+            csv = anomaly_df.to_csv(index=False)
+            st.download_button(
+                label="📥 Download Anomaly Report (CSV)",
+                data=csv,
+                file_name=f"anomaly_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                mime="text/csv"
+            )
 else:
     st.success("✅ Data integrity check passed - No issues found")
 
