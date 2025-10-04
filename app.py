@@ -53,7 +53,7 @@ st.markdown("""
         margin: 0.25rem;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
-        height: 100px;
+        height: 120px;
         min-width: 180px;
         display: flex;
         flex-direction: column;
