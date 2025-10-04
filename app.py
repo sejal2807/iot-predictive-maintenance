@@ -502,11 +502,7 @@ else:
 # Model Performance Metrics
 st.subheader("🤖 Model Performance & Validation")
 
-# Add explanation about realistic metrics
-st.info("""
-**📊 Realistic Model Performance:** These metrics simulate real-world ML model behavior with noise, uncertainty, and prediction errors. 
-In production, models typically achieve 60-95% accuracy due to data quality, feature engineering, and model limitations.
-""")
+# Model performance metrics
 
 # Calculate realistic model performance metrics
 def calculate_model_metrics(data):
