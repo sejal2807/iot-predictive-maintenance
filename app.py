@@ -242,11 +242,21 @@ st.markdown('<h1 class="main-header">🔧 IoT Predictive Maintenance Dashboard</
 # Live indicator and time range info
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.markdown("""
+    # Determine status and colors
+    if st.session_state.simulation_running:
+        status_text = "LIVE MONITORING ACTIVE"
+        status_color = "#4CAF50"
+        dot_class = "active"
+    else:
+        status_text = "MONITORING STOPPED"
+        status_color = "#FF5722"
+        dot_class = "stopped"
+    
+    st.markdown(f"""
     <div style="text-align: center; margin-bottom: 2rem;">
-        <span class="live-indicator {'active' if st.session_state.simulation_running else 'stopped'}"></span>
-        <span style="margin-left: 10px; font-weight: bold; color: {'#4CAF50' if st.session_state.simulation_running else '#FF5722'};">
-            {'LIVE MONITORING ACTIVE' if st.session_state.simulation_running else 'MONITORING STOPPED'}
+        <span class="live-indicator {dot_class}"></span>
+        <span style="margin-left: 10px; font-weight: bold; color: {status_color};">
+            {status_text}
         </span>
     </div>
     """, unsafe_allow_html=True)
