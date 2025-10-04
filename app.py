@@ -9,6 +9,7 @@ import numpy as np
 import random
 import time
 from datetime import datetime, timedelta
+import pytz
 
 # Setup the page
 st.set_page_config(
@@ -297,7 +298,10 @@ if selected_devices:
     data = [d for d in data if d['device_id'] in selected_devices]
 
 # Time range indicator with logical validation
-st.info(f"📅 **Current Time Range:** {time_range} hours | **Data Points:** {len(data)} readings | **Last Updated:** {datetime.now().strftime('%H:%M:%S')}")
+# Get Indian time
+ist = pytz.timezone('Asia/Kolkata')
+current_time_ist = datetime.now(ist)
+st.info(f"📅 **Current Time Range:** {time_range} hours | **Data Points:** {len(data)} readings | **Last Updated:** {current_time_ist.strftime('%H:%M:%S IST')}")
 
 # Add explanation of metrics
 st.markdown("""
@@ -750,7 +754,7 @@ with col3:
 
 st.markdown(f"""
 <div style="text-align: center; color: #666; font-size: 0.8rem; margin-top: 2rem;">
-    Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | 
+    Last updated: {current_time_ist.strftime('%Y-%m-%d %H:%M:%S IST')} | 
     Python 3.13+ Compatible Version
 </div>
 """, unsafe_allow_html=True)
