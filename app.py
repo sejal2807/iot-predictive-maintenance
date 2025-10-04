@@ -53,14 +53,21 @@ st.markdown("""
         margin: 0.5rem 0;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
     
     .metric-card h3 {
         font-size: 1.1rem;
         font-weight: 600;
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.5rem;
         opacity: 0.95;
         letter-spacing: 0.02em;
+        text-align: center;
+        width: 100%;
     }
     
     .metric-card h2 {
@@ -68,6 +75,8 @@ st.markdown("""
         font-weight: 700;
         margin: 0;
         letter-spacing: -0.01em;
+        text-align: center;
+        width: 100%;
     }
     
     .status-normal {
@@ -132,6 +141,9 @@ st.markdown("""
         font-size: 1.8rem !important;
         font-weight: 700 !important;
         margin-bottom: 1.5rem !important;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        text-align: left !important;
     }
     
     .stMarkdown h3 {
@@ -161,6 +173,20 @@ st.markdown("""
     /* Chart improvements */
     .stPlotlyChart {
         font-family: 'Inter', sans-serif;
+    }
+    
+    /* Equal width columns for metric cards */
+    .stColumns > div {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    /* Remove default margins and padding */
+    .main .block-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 </style>
 """, unsafe_allow_html=True)
