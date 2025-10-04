@@ -1,5 +1,3 @@
-# Streamlit Cloud - Bulletproof Requirements
-# Only essential packages that don't conflict with Streamlit's internal dependencies
 streamlit==1.25.0
 numpy==1.24.3
 pandas==2.0.3
