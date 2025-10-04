@@ -57,6 +57,13 @@ class IoTDataGenerator:
             humidity = 60 - (temperature - 25) * 2 + np.random.normal(0, 5)
             humidity = max(0, min(100, humidity))
             
+            # Ensure realistic bounds
+            temperature = max(-10, min(80, temperature))  # -10°C to 80°C
+            vibration = max(0, min(10, vibration))        # 0 to 10 mm/s
+            pressure = max(0, min(25, pressure))          # 0 to 25 bar
+            current = max(0, min(50, current))            # 0 to 50 A
+            humidity = max(0, min(100, humidity))        # 0 to 100%
+            
             data.append({
                 'timestamp': timestamp,
                 'temperature': round(temperature, 2),
@@ -82,31 +89,59 @@ class IoTDataGenerator:
             if anomaly_type == 'spike':
                 # Sudden spike in one or more sensors
                 sensor = np.random.choice(['temperature', 'vibration', 'pressure', 'current'])
-                df.loc[idx, sensor] *= np.random.uniform(2, 5)
+                if sensor == 'temperature':
+                    df.loc[idx, sensor] += np.random.uniform(10, 20)  # Add 10-20°C
+                elif sensor == 'vibration':
+                    df.loc[idx, sensor] += np.random.uniform(2, 4)    # Add 2-4 mm/s
+                elif sensor == 'pressure':
+                    df.loc[idx, sensor] += np.random.uniform(3, 6)    # Add 3-6 bar
+                elif sensor == 'current':
+                    df.loc[idx, sensor] += np.random.uniform(5, 10)   # Add 5-10 A
                 
             elif anomaly_type == 'drift':
                 # Gradual drift starting from this point
                 drift_duration = min(10, len(df) - idx)
                 sensor = np.random.choice(['temperature', 'vibration', 'pressure'])
-                drift_factor = np.random.uniform(1.5, 3)
+                drift_amount = np.random.uniform(5, 15)  # Realistic drift amount
                 
                 for i in range(drift_duration):
                     if idx + i < len(df):
-                        df.loc[idx + i, sensor] *= (1 + (i / drift_duration) * (drift_factor - 1))
+                        df.loc[idx + i, sensor] += (i / drift_duration) * drift_amount
                         
             elif anomaly_type == 'noise':
                 # High noise in multiple sensors
                 for sensor in ['temperature', 'vibration', 'pressure', 'current']:
-                    noise_factor = np.random.uniform(3, 8)
-                    df.loc[idx, sensor] += np.random.normal(0, noise_factor)
+                    if sensor == 'temperature':
+                        df.loc[idx, sensor] += np.random.normal(0, 5)    # ±5°C noise
+                    elif sensor == 'vibration':
+                        df.loc[idx, sensor] += np.random.normal(0, 1)    # ±1 mm/s noise
+                    elif sensor == 'pressure':
+                        df.loc[idx, sensor] += np.random.normal(0, 2)    # ±2 bar noise
+                    elif sensor == 'current':
+                        df.loc[idx, sensor] += np.random.normal(0, 3)    # ±3 A noise
                     
             elif anomaly_type == 'level_shift':
                 # Permanent shift in sensor readings
                 sensor = np.random.choice(['temperature', 'vibration', 'pressure', 'current'])
-                shift_amount = np.random.uniform(1.5, 3)
-                df.loc[idx:, sensor] *= shift_amount
+                if sensor == 'temperature':
+                    shift_amount = np.random.uniform(5, 15)  # 5-15°C shift
+                elif sensor == 'vibration':
+                    shift_amount = np.random.uniform(1, 3)   # 1-3 mm/s shift
+                elif sensor == 'pressure':
+                    shift_amount = np.random.uniform(2, 5)   # 2-5 bar shift
+                elif sensor == 'current':
+                    shift_amount = np.random.uniform(3, 8)   # 3-8 A shift
+                
+                df.loc[idx:, sensor] += shift_amount
             
             df.loc[idx, 'is_anomaly'] = True
+        
+        # Apply bounds checking after anomaly injection
+        df['temperature'] = df['temperature'].clip(-10, 80)    # -10°C to 80°C
+        df['vibration'] = df['vibration'].clip(0, 10)          # 0 to 10 mm/s
+        df['pressure'] = df['pressure'].clip(0, 25)            # 0 to 25 bar
+        df['current'] = df['current'].clip(0, 50)              # 0 to 50 A
+        df['humidity'] = df['humidity'].clip(0, 100)           # 0 to 100%
         
         return df
     
