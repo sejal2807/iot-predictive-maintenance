@@ -415,14 +415,17 @@ with col5:
     """, unsafe_allow_html=True)
 
 # Real-time charts
+st.subheader("📊 Sensor Data Charts")
 
 df = pd.DataFrame(data)
 
-# Data validation (silent)
+# Data validation with debugging
 if len(data) == 0:
     st.error("No data available for charts")
 elif len(df) == 0:
     st.error("DataFrame is empty")
+else:
+    st.info(f"📈 Creating charts with {len(df)} data points")
 
 # Create charts using Streamlit's built-in charts
 col1, col2 = st.columns(2)
@@ -430,40 +433,29 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("🌡️ Temperature (°C)")
     try:
-        if 'temperature' in df.columns and not df['temperature'].empty:
-            temp_df = pd.DataFrame({
-                'temperature': df['temperature'].values
-            })
-            st.line_chart(temp_df)
+        if 'temperature' in df.columns and len(df['temperature']) > 0:
+            # Simple line chart
+            st.line_chart(df['temperature'])
         else:
             st.warning("No temperature data available")
     except Exception as e:
         st.error(f"Error creating temperature chart: {e}")
+        st.write("DataFrame columns:", df.columns.tolist())
     
     st.subheader("📳 Vibration (mm/s)")
     try:
-        # Simple approach - just use the vibration column directly
-        if 'vibration' in df.columns and not df['vibration'].empty:
-            # Create a simple DataFrame with just vibration data
-            vib_df = pd.DataFrame({
-                'vibration': df['vibration'].values
-            })
-            st.line_chart(vib_df)
+        if 'vibration' in df.columns and len(df['vibration']) > 0:
+            st.line_chart(df['vibration'])
         else:
             st.warning("No vibration data available")
     except Exception as e:
         st.error(f"Error creating vibration chart: {e}")
-        # Debug info
-        st.write("Vibration data sample:", df['vibration'].head() if 'vibration' in df.columns else "No vibration column")
 
 with col2:
     st.subheader("🔧 Pressure (bar)")
     try:
-        if 'pressure' in df.columns and not df['pressure'].empty:
-            press_df = pd.DataFrame({
-                'pressure': df['pressure'].values
-            })
-            st.line_chart(press_df)
+        if 'pressure' in df.columns and len(df['pressure']) > 0:
+            st.line_chart(df['pressure'])
         else:
             st.warning("No pressure data available")
     except Exception as e:
@@ -471,11 +463,8 @@ with col2:
     
     st.subheader("⚡ Current (A)")
     try:
-        if 'current' in df.columns and not df['current'].empty:
-            curr_df = pd.DataFrame({
-                'current': df['current'].values
-            })
-            st.line_chart(curr_df)
+        if 'current' in df.columns and len(df['current']) > 0:
+            st.line_chart(df['current'])
         else:
             st.warning("No current data available")
     except Exception as e:
