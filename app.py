@@ -70,9 +70,15 @@ st.markdown("""
         display: inline-block;
         width: 12px;
         height: 12px;
-        background-color: #4CAF50;
         border-radius: 50%;
+    }
+    .live-indicator.active {
+        background-color: #4CAF50;
         animation: blink 1s infinite;
+    }
+    .live-indicator.stopped {
+        background-color: #FF5722;
+        animation: none;
     }
     
     @keyframes blink {
@@ -238,8 +244,10 @@ col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.markdown("""
     <div style="text-align: center; margin-bottom: 2rem;">
-        <span class="live-indicator"></span>
-        <span style="margin-left: 10px; font-weight: bold; color: #4CAF50;">LIVE MONITORING ACTIVE</span>
+        <span class="live-indicator {'active' if st.session_state.simulation_running else 'stopped'}"></span>
+        <span style="margin-left: 10px; font-weight: bold; color: {'#4CAF50' if st.session_state.simulation_running else '#FF5722'};">
+            {'LIVE MONITORING ACTIVE' if st.session_state.simulation_running else 'MONITORING STOPPED'}
+        </span>
     </div>
     """, unsafe_allow_html=True)
 
