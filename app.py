@@ -271,11 +271,13 @@ with st.sidebar:
         if st.button("▶️ Start Live"):
             st.session_state.simulation_running = True
             st.success("Live simulation started!")
+            st.rerun()
     
     with col2:
         if st.button("⏹️ Stop Live"):
             st.session_state.simulation_running = False
             st.info("Live simulation stopped!")
+            st.rerun()
     
     with col3:
         if st.button("🔄 Refresh Data"):
@@ -417,17 +419,25 @@ with col5:
 # Real-time charts
 st.subheader("📊 Sensor Data Charts")
 
+# Force display of charts section
+st.write("🔍 **Charts Section Loading...**")
+
 df = pd.DataFrame(data)
 
 # Data validation with debugging
+st.write(f"🔍 **Debug Info:** Data length = {len(data)}, DataFrame shape = {df.shape}")
+
 if len(data) == 0:
     st.error("No data available for charts")
 elif len(df) == 0:
     st.error("DataFrame is empty")
 else:
     st.info(f"📈 Creating charts with {len(df)} data points")
+    st.write("📊 **Available columns:**", df.columns.tolist())
 
 # Create charts using Streamlit's built-in charts
+st.write("📈 **Creating sensor charts...**")
+
 col1, col2 = st.columns(2)
 
 with col1:
