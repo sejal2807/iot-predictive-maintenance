@@ -104,9 +104,15 @@ def generate_iot_data(time_range_hours=24):
     elif time_range_hours <= 72:
         data_points = time_range_hours // 2  # 1 point per 2 hours
         interval_hours = 2
-    else:
+    elif time_range_hours <= 168:  # 1 week
         data_points = time_range_hours // 6  # 1 point per 6 hours
         interval_hours = 6
+    elif time_range_hours <= 720:  # 1 month
+        data_points = time_range_hours // 24  # 1 point per day
+        interval_hours = 24
+    else:  # More than 1 month
+        data_points = time_range_hours // 168  # 1 point per week
+        interval_hours = 168
     
     base_time = datetime.now() - timedelta(hours=time_range_hours)
     data = []
@@ -271,9 +277,9 @@ with st.sidebar:
     st.subheader("⏰ Time Range")
     time_range = st.selectbox(
         "Select time range:",
-        [1, 6, 12, 24, 48, 72],
+        [1, 6, 12, 24, 48, 72, 168, 336, 720, 1440],
         index=3,
-        format_func=lambda x: f"{x} hours"
+        format_func=lambda x: f"{x} hours" if x < 168 else f"{x//24} days" if x < 1440 else f"{x//720} months"
     )
     
     # Clear cache when time range changes
