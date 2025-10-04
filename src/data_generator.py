@@ -1,6 +1,6 @@
 """
-IoT Sensor Data Generator for Predictive Maintenance
-Simulates realistic sensor data with anomalies for testing ML models
+IoT Sensor Data Generator
+Creates sample data for testing
 """
 
 import numpy as np

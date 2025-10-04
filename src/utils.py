@@ -1,5 +1,6 @@
 """
-Utility functions for IoT Predictive Maintenance
+Utility functions
+Helper functions for the project
 """
 
 import pandas as pd

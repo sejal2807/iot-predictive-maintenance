@@ -1,6 +1,6 @@
 """
-Professional Streamlit Dashboard for IoT Predictive Maintenance
-Real-time monitoring, anomaly detection, and maintenance insights
+Streamlit Dashboard
+Main dashboard for the IoT project
 """
 
 import streamlit as st

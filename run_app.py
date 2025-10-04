@@ -1,6 +1,6 @@
 """
-ULTRA-SIMPLE IoT Dashboard
-100% guaranteed to work - no external dependencies
+Simple IoT Dashboard
+Basic version for demo purposes
 """
 
 import streamlit as st

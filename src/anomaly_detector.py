@@ -1,6 +1,6 @@
 """
-Anomaly Detection Models for IoT Predictive Maintenance
-Implements multiple ML and DL approaches for time series anomaly detection
+Anomaly Detection Models
+Different ML approaches for finding anomalies
 """
 
 import numpy as np

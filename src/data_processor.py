@@ -1,5 +1,6 @@
 """
-Data Processing and Feature Engineering for IoT Predictive Maintenance
+Data Processing for IoT
+Feature engineering and data cleaning
 """
 
 import pandas as pd
