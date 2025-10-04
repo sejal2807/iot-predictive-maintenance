@@ -53,7 +53,7 @@ st.markdown("""
         margin: 0.5rem 0;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
-        height: 140px;
+        height: 160px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -65,17 +65,20 @@ st.markdown("""
     }
     
     .metric-card h3 {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 600;
         margin-bottom: 0.8rem;
         opacity: 0.95;
         letter-spacing: 0.01em;
         text-align: center;
         width: 100%;
-        line-height: 1.2;
+        line-height: 1.3;
         color: white;
         position: relative;
         z-index: 2;
+        white-space: normal;
+        word-wrap: break-word;
+        max-width: 90%;
     }
     
     .metric-card h2 {
@@ -515,7 +518,7 @@ col1, col2, col3, col4, col5 = st.columns(5)
 with col1:
     st.markdown(f"""
     <div class="metric-card">
-        <h3>🏭 Active Devices</h3>
+        <h3>🏭 Active<br>Devices</h3>
         <h2>{total_devices}</h2>
     </div>
     """, unsafe_allow_html=True)
@@ -524,7 +527,7 @@ with col2:
     color = "🔴" if anomaly_rate > 0.1 else "🟡" if anomaly_rate > 0.05 else "🟢"
     st.markdown(f"""
     <div class="metric-card">
-        <h3>{color} Anomaly Rate</h3>
+        <h3>{color} Anomaly<br>Rate</h3>
         <h2>{anomaly_rate:.1%}</h2>
     </div>
     """, unsafe_allow_html=True)
@@ -532,7 +535,7 @@ with col2:
 with col3:
     st.markdown(f"""
     <div class="metric-card">
-        <h3>⚠️ Critical Devices</h3>
+        <h3>⚠️ Critical<br>Devices</h3>
         <h2>{critical_devices}</h2>
     </div>
     """, unsafe_allow_html=True)
@@ -541,7 +544,7 @@ with col4:
     health_color = "🔴" if avg_health < 50 else "🟡" if avg_health < 80 else "🟢"
     st.markdown(f"""
     <div class="metric-card">
-        <h3>{health_color} Avg Health</h3>
+        <h3>{health_color} Avg<br>Health</h3>
         <h2>{avg_health:.1f}%</h2>
     </div>
     """, unsafe_allow_html=True)
@@ -550,7 +553,7 @@ with col5:
     uptime = 99.9 - (anomaly_rate * 10)
     st.markdown(f"""
     <div class="metric-card">
-        <h3>⏱️ System Uptime</h3>
+        <h3>⏱️ System<br>Uptime</h3>
         <h2>{uptime:.1f}%</h2>
     </div>
     """, unsafe_allow_html=True)
