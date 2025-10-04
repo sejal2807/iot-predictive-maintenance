@@ -193,6 +193,7 @@ def simulate_live_data():
         current_time = datetime.now()
         device_id = random.randint(1, 5)
         device_types = ['Motor', 'Pump', 'Compressor', 'Generator', 'Turbine']
+        device_locations = ['Plant A', 'Plant B', 'Warehouse', 'Office', 'Factory']
         
         temp = 25 + random.uniform(-5, 15) + random.uniform(-2, 2)
         vib = 2 + random.uniform(-1, 3) + random.uniform(-0.5, 0.5)
@@ -211,6 +212,7 @@ def simulate_live_data():
             'timestamp': current_time,
             'device_id': f'device_{device_id:03d}',
             'device_type': device_types[device_id - 1],
+            'location': device_locations[device_id - 1],
             'temperature': round(temp, 1),
             'vibration': round(vib, 2),
             'pressure': round(press, 1),
@@ -440,7 +442,7 @@ for i, (device_id, device_readings) in enumerate(device_data.items()):
         <div class="{card_class}">
             <h4>🔧 {device_id}</h4>
             <p><strong>Type:</strong> {latest_reading['device_type']}</p>
-            <p><strong>Location:</strong> {latest_reading['location']}</p>
+            <p><strong>Location:</strong> {latest_reading.get('location', 'Unknown')}</p>
             <p><strong>Health Score:</strong> {health_score:.1f}%</p>
             <p><strong>Status:</strong> {status}</p>
             <p><strong>Temperature:</strong> {latest_reading['temperature']}°C</p>
