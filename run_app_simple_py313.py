@@ -89,21 +89,32 @@ if 'live_data' not in st.session_state:
 if 'simulation_running' not in st.session_state:
     st.session_state.simulation_running = False
 
-# Enhanced data generation
+# Enhanced data generation with time range support
 @st.cache_data(ttl=60)
-def generate_iot_data():
-    """Generate realistic IoT sensor data"""
+def generate_iot_data(time_range_hours=24):
+    """Generate realistic IoT sensor data for specified time range"""
     np.random.seed(42)
     random.seed(42)
     
-    base_time = datetime.now() - timedelta(hours=24)
+    # Calculate data points based on time range
+    if time_range_hours <= 24:
+        data_points = time_range_hours  # 1 point per hour
+        interval_hours = 1
+    elif time_range_hours <= 72:
+        data_points = time_range_hours // 2  # 1 point per 2 hours
+        interval_hours = 2
+    else:
+        data_points = time_range_hours // 6  # 1 point per 6 hours
+        interval_hours = 6
+    
+    base_time = datetime.now() - timedelta(hours=time_range_hours)
     data = []
     
     device_types = ['Motor', 'Pump', 'Compressor', 'Generator', 'Turbine']
     device_locations = ['Plant A', 'Plant B', 'Warehouse', 'Office', 'Factory']
     
-    for i in range(24):
-        timestamp = base_time + timedelta(hours=i)
+    for i in range(data_points):
+        timestamp = base_time + timedelta(hours=i * interval_hours)
         hour = timestamp.hour
         
         for device_id in range(1, 6):
@@ -210,7 +221,7 @@ def simulate_live_data():
 # Main header
 st.markdown('<h1 class="main-header">🔧 IoT Predictive Maintenance Dashboard</h1>', unsafe_allow_html=True)
 
-# Live indicator
+# Live indicator and time range info
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.markdown("""
@@ -225,7 +236,7 @@ with st.sidebar:
     st.header("🎛️ Control Panel")
     
     st.subheader("📡 Live Data Simulation")
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         if st.button("▶️ Start Live"):
             st.session_state.simulation_running = True
@@ -235,6 +246,11 @@ with st.sidebar:
         if st.button("⏹️ Stop Live"):
             st.session_state.simulation_running = False
             st.info("Live simulation stopped!")
+    
+    with col3:
+        if st.button("🔄 Refresh Data"):
+            st.cache_data.clear()
+            st.rerun()
     
     auto_refresh = st.checkbox("🔄 Auto-refresh (5s)")
     if auto_refresh:
@@ -258,18 +274,30 @@ with st.sidebar:
         index=3,
         format_func=lambda x: f"{x} hours"
     )
+    
+    # Clear cache when time range changes
+    if 'last_time_range' not in st.session_state:
+        st.session_state.last_time_range = time_range
+    
+    if st.session_state.last_time_range != time_range:
+        st.cache_data.clear()
+        st.session_state.last_time_range = time_range
+        st.rerun()
 
 # Simulate live data
 simulate_live_data()
 
-# Load data
-data = generate_iot_data()
+# Load data with time range
+data = generate_iot_data(time_range)
 if st.session_state.live_data:
     data.extend(st.session_state.live_data)
 
 # Filter data
 if selected_devices:
     data = [d for d in data if d['device_id'] in selected_devices]
+
+# Time range indicator
+st.info(f"📅 **Current Time Range:** {time_range} hours | **Data Points:** {len(data)} readings | **Last Updated:** {datetime.now().strftime('%H:%M:%S')}")
 
 # Metrics dashboard
 st.subheader("📊 System Overview")
@@ -439,6 +467,134 @@ else:
         <p>No anomalies detected in the selected time range</p>
     </div>
     """, unsafe_allow_html=True)
+
+# Model Performance Metrics
+st.subheader("🤖 Model Performance & Validation")
+
+# Calculate model performance metrics
+def calculate_model_metrics(data):
+    """Calculate model performance metrics"""
+    if not data:
+        return {}
+    
+    # Simulate model predictions (in real app, these would come from trained models)
+    total_predictions = len(data)
+    true_anomalies = sum(1 for d in data if d['is_anomaly'])
+    predicted_anomalies = sum(1 for d in data if d['health_score'] < 50)  # Simulate prediction threshold
+    
+    # Calculate metrics
+    accuracy = (total_predictions - abs(true_anomalies - predicted_anomalies)) / total_predictions if total_predictions > 0 else 0
+    
+    # Precision: True Positives / (True Positives + False Positives)
+    true_positives = sum(1 for d in data if d['is_anomaly'] and d['health_score'] < 50)
+    false_positives = sum(1 for d in data if not d['is_anomaly'] and d['health_score'] < 50)
+    precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) > 0 else 0
+    
+    # Recall: True Positives / (True Positives + False Negatives)
+    false_negatives = sum(1 for d in data if d['is_anomaly'] and d['health_score'] >= 50)
+    recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) > 0 else 0
+    
+    # F1 Score
+    f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
+    
+    return {
+        'accuracy': accuracy,
+        'precision': precision,
+        'recall': recall,
+        'f1_score': f1_score,
+        'true_positives': true_positives,
+        'false_positives': false_positives,
+        'false_negatives': false_negatives
+    }
+
+metrics = calculate_model_metrics(data)
+
+# Display metrics in columns
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.metric(
+        label="🎯 Accuracy",
+        value=f"{metrics.get('accuracy', 0):.3f}",
+        help="Overall prediction accuracy"
+    )
+
+with col2:
+    st.metric(
+        label="🎯 Precision",
+        value=f"{metrics.get('precision', 0):.3f}",
+        help="True positives / (True positives + False positives)"
+    )
+
+with col3:
+    st.metric(
+        label="🎯 Recall",
+        value=f"{metrics.get('recall', 0):.3f}",
+        help="True positives / (True positives + False negatives)"
+    )
+
+with col4:
+    st.metric(
+        label="🎯 F1-Score",
+        value=f"{metrics.get('f1_score', 0):.3f}",
+        help="Harmonic mean of precision and recall"
+    )
+
+# Model validation details
+st.markdown("### 📊 Model Validation Details")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown(f"""
+    **Confusion Matrix:**
+    - True Positives: {metrics.get('true_positives', 0)}
+    - False Positives: {metrics.get('false_positives', 0)}
+    - False Negatives: {metrics.get('false_negatives', 0)}
+    """)
+
+with col2:
+    # Model performance status
+    accuracy = metrics.get('accuracy', 0)
+    if accuracy >= 0.9:
+        status = "🟢 Excellent"
+        status_class = "status-normal"
+    elif accuracy >= 0.8:
+        status = "🟡 Good"
+        status_class = "status-warning"
+    else:
+        status = "🔴 Needs Improvement"
+        status_class = "status-critical"
+    
+    st.markdown(f"""
+    <div class="{status_class}">
+        <h4>Model Performance: {status}</h4>
+        <p>Accuracy: {accuracy:.1%}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Data integrity check
+st.markdown("### 🔍 Data Integrity Check")
+
+data_integrity_issues = []
+for d in data:
+    # Check for missing values
+    if any(v is None for v in [d['temperature'], d['vibration'], d['pressure'], d['current'], d['humidity']]):
+        data_integrity_issues.append(f"Missing values in {d['device_id']}")
+    
+    # Check for unrealistic values
+    if d['temperature'] < -50 or d['temperature'] > 100:
+        data_integrity_issues.append(f"Unrealistic temperature in {d['device_id']}: {d['temperature']}°C")
+    
+    if d['vibration'] < 0 or d['vibration'] > 20:
+        data_integrity_issues.append(f"Unrealistic vibration in {d['device_id']}: {d['vibration']} mm/s")
+
+if data_integrity_issues:
+    st.warning(f"⚠️ Found {len(data_integrity_issues)} data integrity issues")
+    for issue in data_integrity_issues[:5]:  # Show first 5 issues
+        st.write(f"• {issue}")
+else:
+    st.success("✅ Data integrity check passed - No issues found")
 
 # Maintenance recommendations
 st.subheader("🔧 Predictive Maintenance Recommendations")
