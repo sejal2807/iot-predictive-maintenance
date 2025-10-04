@@ -14,12 +14,7 @@ import os
 # Add src directory to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-# Page configuration
-st.set_page_config(
-    page_title="IoT Predictive Maintenance Dashboard",
-    page_icon="🔧",
-    layout="wide"
-)
+# Page configuration removed - handled by main entry point
 
 # Header
 st.title("🔧 IoT Predictive Maintenance Dashboard")

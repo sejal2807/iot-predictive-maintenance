@@ -21,13 +21,7 @@ from data_generator import IoTDataGenerator, create_sample_dataset
 from data_processor import IoTDataProcessor
 from anomaly_detector import AnomalyDetector
 
-# Page configuration
-st.set_page_config(
-    page_title="IoT Predictive Maintenance Dashboard",
-    page_icon="🔧",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# Page configuration removed - handled by main entry point
 
 # Custom CSS for better styling
 st.markdown("""
