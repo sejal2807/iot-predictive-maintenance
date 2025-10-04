@@ -45,43 +45,50 @@ st.markdown("""
     
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.2rem;
-        border-radius: 12px;
+        padding: 1.5rem;
+        border-radius: 15px;
         color: white;
         text-align: center;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-        margin: 0.25rem;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        margin: 0.5rem 0;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
+        height: 140px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         box-sizing: border-box;
         width: 100%;
-        height: 120px;
-        min-height: 120px;
+        position: relative;
+        overflow: hidden;
     }
     
     .metric-card h3 {
-        font-size: 1rem;
+        font-size: 1.1rem;
         font-weight: 600;
-        margin-bottom: 0.6rem;
+        margin-bottom: 0.8rem;
         opacity: 0.95;
         letter-spacing: 0.01em;
         text-align: center;
         width: 100%;
         line-height: 1.2;
+        color: white;
+        position: relative;
+        z-index: 2;
     }
     
     .metric-card h2 {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
         font-weight: 700;
         margin: 0;
         letter-spacing: -0.01em;
         text-align: center;
         width: 100%;
         line-height: 1.1;
+        color: white;
+        position: relative;
+        z-index: 2;
     }
     
     .status-normal {
@@ -190,8 +197,16 @@ st.markdown("""
     /* Ensure text stays within cards */
     .metric-card * {
         max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        word-wrap: break-word;
+        white-space: nowrap;
+    }
+    
+    /* Force proper card layout */
+    .metric-card {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
     }
     
     /* Keep content within bounds */
