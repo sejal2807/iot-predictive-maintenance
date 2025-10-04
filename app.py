@@ -45,7 +45,7 @@ st.markdown("""
     
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1rem;
+        padding: 1.2rem;
         border-radius: 12px;
         color: white;
         text-align: center;
@@ -59,25 +59,29 @@ st.markdown("""
         align-items: center;
         box-sizing: border-box;
         width: 100%;
+        height: 120px;
+        min-height: 120px;
     }
     
     .metric-card h3 {
-        font-size: 0.9rem;
+        font-size: 1rem;
         font-weight: 600;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.6rem;
         opacity: 0.95;
         letter-spacing: 0.01em;
         text-align: center;
         width: 100%;
+        line-height: 1.2;
     }
     
     .metric-card h2 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         font-weight: 700;
         margin: 0;
         letter-spacing: -0.01em;
         text-align: center;
         width: 100%;
+        line-height: 1.1;
     }
     
     .status-normal {
@@ -181,6 +185,13 @@ st.markdown("""
         flex: 1;
         min-width: 0;
         padding: 0.25rem;
+    }
+    
+    /* Ensure text stays within cards */
+    .metric-card * {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     /* Keep content within bounds */
