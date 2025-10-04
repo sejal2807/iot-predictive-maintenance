@@ -28,23 +28,32 @@ st.markdown("---")
 
 # Generate realistic industrial IoT data
 def generate_data():
-    # Use the advanced data generator for realistic patterns
-    generator = IoTDataGenerator(seed=42)
-    
-    # Generate data for multiple devices over the last 7 days
-    start_time = datetime.now() - timedelta(days=7)
-    device_ids = ['device_001', 'device_002', 'device_003', 'device_004', 'device_005']
-    
-    # Get the full dataset
-    full_data = generator.generate_multi_device_data(
-        device_ids=device_ids,
-        start_time=start_time,
-        duration_hours=168  # 7 days
-    )
+    try:
+        # Use the advanced data generator for realistic patterns
+        generator = IoTDataGenerator(seed=42)
+        
+        # Generate data for multiple devices over the last 7 days
+        start_time = datetime.now() - timedelta(days=7)
+        device_ids = ['device_001', 'device_002', 'device_003', 'device_004', 'device_005']
+        
+        # Get the full dataset
+        full_data = generator.generate_multi_device_data(
+            device_ids=device_ids,
+            start_time=start_time,
+            duration_hours=168  # 7 days
+        )
+    except Exception as e:
+        st.error(f"Error generating data: {e}")
+        # Fallback to simple data generation
+        return generate_simple_data()
     
     # Get the last 24 hours for dashboard display
     last_24h = datetime.now() - timedelta(hours=24)
     recent_data = full_data[full_data['timestamp'] >= last_24h].copy()
+    
+    # If no recent data, use the last 24 records
+    if len(recent_data) == 0:
+        recent_data = full_data.tail(24).copy()
     
     # Convert to dashboard format
     dashboard_data = []
@@ -62,6 +71,35 @@ def generate_data():
         })
     
     return dashboard_data
+
+# Fallback simple data generation
+def generate_simple_data():
+    random.seed(42)
+    data = []
+    base_time = datetime.now() - timedelta(hours=24)
+    
+    for i in range(24):
+        timestamp = base_time + timedelta(hours=i)
+        temperature = 25 + random.uniform(-5, 15)
+        vibration = 2 + random.uniform(-1, 3)
+        pressure = 10 + random.uniform(-2, 4)
+        current = 15 + random.uniform(-5, 10)
+        humidity = 60 + random.uniform(-20, 20)
+        anomaly = random.random() < 0.1
+        
+        data.append({
+            'time': timestamp.strftime('%H:%M'),
+            'temp': round(temperature, 1),
+            'vib': round(vibration, 2),
+            'press': round(pressure, 1),
+            'curr': round(current, 1),
+            'hum': round(humidity, 1),
+            'anomaly': anomaly,
+            'device': f'device_{i%5+1:03d}',
+            'device_type': random.choice(['motor', 'pump', 'compressor', 'generator'])
+        })
+    
+    return data
 
 # Load data
 data = generate_data()

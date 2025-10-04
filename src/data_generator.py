@@ -64,7 +64,7 @@ class IoTDataGenerator:
                 'pressure': round(pressure, 2),
                 'current': round(current, 2),
                 'humidity': round(humidity, 1),
-                'anomaly': False
+                'is_anomaly': False
             })
         
         return pd.DataFrame(data)
@@ -106,7 +106,7 @@ class IoTDataGenerator:
                 shift_amount = np.random.uniform(1.5, 3)
                 df.loc[idx:, sensor] *= shift_amount
             
-            df.loc[idx, 'anomaly'] = True
+            df.loc[idx, 'is_anomaly'] = True
         
         return df
     
@@ -125,7 +125,8 @@ class IoTDataGenerator:
         
         # Add device metadata
         df['device_id'] = device_id
-        df['device_type'] = np.random.choice(['motor', 'pump', 'compressor', 'generator'])
+        device_type = np.random.choice(['motor', 'pump', 'compressor', 'generator'])
+        df['device_type'] = device_type
         df['location'] = np.random.choice(['plant_a', 'plant_b', 'warehouse', 'office'])
         
         return df
@@ -160,12 +161,12 @@ class IoTDataGenerator:
             device_data = df[df['device_id'] == device_id].copy()
             
             # Find consecutive anomalies
-            anomaly_mask = device_data['anomaly']
+            anomaly_mask = device_data['is_anomaly']
             anomaly_groups = (anomaly_mask != anomaly_mask.shift()).cumsum()
             
             for group_id in anomaly_groups.unique():
                 group_mask = anomaly_groups == group_id
-                if device_data.loc[group_mask, 'anomaly'].any():
+                if device_data.loc[group_mask, 'is_anomaly'].any():
                     group_size = group_mask.sum()
                     
                     if group_size >= 3:  # 3+ consecutive anomalies
@@ -206,7 +207,7 @@ if __name__ == "__main__":
     df = create_sample_dataset()
     
     print(f"Generated {len(df)} records for {df['device_id'].nunique()} devices")
-    print(f"Anomalies detected: {df['anomaly'].sum()}")
+    print(f"Anomalies detected: {df['is_anomaly'].sum()}")
     print(f"Maintenance required: {df['maintenance_required'].sum()}")
     
     # Save to CSV
