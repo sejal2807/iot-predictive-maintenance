@@ -412,11 +412,11 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("🌡️ Temperature (°C)")
     try:
-        # Create a simple line chart without timestamp index
-        temp_data = df[['timestamp', 'temperature']].copy()
-        temp_data = temp_data.set_index('timestamp')
-        if not temp_data.empty:
-            st.line_chart(temp_data)
+        if 'temperature' in df.columns and not df['temperature'].empty:
+            temp_df = pd.DataFrame({
+                'temperature': df['temperature'].values
+            })
+            st.line_chart(temp_df)
         else:
             st.warning("No temperature data available")
     except Exception as e:
@@ -424,22 +424,28 @@ with col1:
     
     st.subheader("📳 Vibration (mm/s)")
     try:
-        vib_data = df[['timestamp', 'vibration']].copy()
-        vib_data = vib_data.set_index('timestamp')
-        if not vib_data.empty:
-            st.line_chart(vib_data)
+        # Simple approach - just use the vibration column directly
+        if 'vibration' in df.columns and not df['vibration'].empty:
+            # Create a simple DataFrame with just vibration data
+            vib_df = pd.DataFrame({
+                'vibration': df['vibration'].values
+            })
+            st.line_chart(vib_df)
         else:
             st.warning("No vibration data available")
     except Exception as e:
         st.error(f"Error creating vibration chart: {e}")
+        # Debug info
+        st.write("Vibration data sample:", df['vibration'].head() if 'vibration' in df.columns else "No vibration column")
 
 with col2:
     st.subheader("🔧 Pressure (bar)")
     try:
-        press_data = df[['timestamp', 'pressure']].copy()
-        press_data = press_data.set_index('timestamp')
-        if not press_data.empty:
-            st.line_chart(press_data)
+        if 'pressure' in df.columns and not df['pressure'].empty:
+            press_df = pd.DataFrame({
+                'pressure': df['pressure'].values
+            })
+            st.line_chart(press_df)
         else:
             st.warning("No pressure data available")
     except Exception as e:
@@ -447,10 +453,11 @@ with col2:
     
     st.subheader("⚡ Current (A)")
     try:
-        curr_data = df[['timestamp', 'current']].copy()
-        curr_data = curr_data.set_index('timestamp')
-        if not curr_data.empty:
-            st.line_chart(curr_data)
+        if 'current' in df.columns and not df['current'].empty:
+            curr_df = pd.DataFrame({
+                'current': df['current'].values
+            })
+            st.line_chart(curr_df)
         else:
             st.warning("No current data available")
     except Exception as e:
