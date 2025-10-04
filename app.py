@@ -401,29 +401,59 @@ st.subheader("📈 Real-Time Sensor Monitoring")
 
 df = pd.DataFrame(data)
 
+# Debug: Check if data exists
+if len(data) == 0:
+    st.error("No data available for charts")
+elif len(df) == 0:
+    st.error("DataFrame is empty")
+else:
+    st.info(f"Data loaded: {len(df)} rows, columns: {list(df.columns)}")
+
 # Create charts using Streamlit's built-in charts
 col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("🌡️ Temperature (°C)")
-    temp_data = df.set_index('timestamp')['temperature']
-    st.line_chart(temp_data)
+    try:
+        temp_data = df.set_index('timestamp')['temperature']
+        if not temp_data.empty:
+            st.line_chart(temp_data)
+        else:
+            st.warning("No temperature data available")
+    except Exception as e:
+        st.error(f"Error creating temperature chart: {e}")
+        st.write("DataFrame info:", df.info())
     
     st.subheader("📳 Vibration (mm/s)")
-    vib_data = df.set_index('timestamp')['vibration']
-    if not vib_data.empty:
-        st.line_chart(vib_data)
-    else:
-        st.warning("No vibration data available")
+    try:
+        vib_data = df.set_index('timestamp')['vibration']
+        if not vib_data.empty:
+            st.line_chart(vib_data)
+        else:
+            st.warning("No vibration data available")
+    except Exception as e:
+        st.error(f"Error creating vibration chart: {e}")
 
 with col2:
     st.subheader("🔧 Pressure (bar)")
-    press_data = df.set_index('timestamp')['pressure']
-    st.line_chart(press_data)
+    try:
+        press_data = df.set_index('timestamp')['pressure']
+        if not press_data.empty:
+            st.line_chart(press_data)
+        else:
+            st.warning("No pressure data available")
+    except Exception as e:
+        st.error(f"Error creating pressure chart: {e}")
     
     st.subheader("⚡ Current (A)")
-    curr_data = df.set_index('timestamp')['current']
-    st.line_chart(curr_data)
+    try:
+        curr_data = df.set_index('timestamp')['current']
+        if not curr_data.empty:
+            st.line_chart(curr_data)
+        else:
+            st.warning("No current data available")
+    except Exception as e:
+        st.error(f"Error creating current chart: {e}")
 
 # Device status
 st.subheader("🏭 Device Status Overview")
