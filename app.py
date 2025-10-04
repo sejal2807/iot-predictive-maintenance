@@ -556,7 +556,7 @@ with col1:
     except Exception as e:
         st.error("Unable to display temperature chart")
     
-    st.subheader("­ƒô│ Vibration (mm/s)")
+    st.subheader("📳 Vibration (mm/s)")
     try:
         if 'vibration' in df.columns and len(df['vibration']) > 0:
             st.line_chart(df['vibration'])
@@ -575,7 +575,7 @@ with col2:
     except Exception as e:
         st.error("Unable to display pressure chart")
     
-    st.subheader("ÔÜí Current (A)")
+    st.subheader("⚡ Current (A)")
     try:
         if 'current' in df.columns and len(df['current']) > 0:
             st.line_chart(df['current'])
@@ -677,7 +677,7 @@ else:
     """, unsafe_allow_html=True)
 
 # Model Performance Metrics
-st.subheader("­ƒñû Model Performance & Validation")
+st.subheader("🤖 Model Performance & Validation")
 
 # Model performance metrics
 
@@ -752,34 +752,34 @@ col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.metric(
-        label="­ƒÄ» Accuracy",
+        label="🎯 Accuracy",
         value=f"{metrics.get('accuracy', 0):.3f}",
         help="Overall prediction accuracy"
     )
 
 with col2:
     st.metric(
-        label="­ƒÄ» Precision",
+        label="🎯 Precision",
         value=f"{metrics.get('precision', 0):.3f}",
         help="True positives / (True positives + False positives)"
     )
 
 with col3:
     st.metric(
-        label="­ƒÄ» Recall",
+        label="🎯 Recall",
         value=f"{metrics.get('recall', 0):.3f}",
         help="True positives / (True positives + False negatives)"
     )
 
 with col4:
     st.metric(
-        label="­ƒÄ» F1-Score",
+        label="🎯 F1-Score",
         value=f"{metrics.get('f1_score', 0):.3f}",
         help="Harmonic mean of precision and recall"
     )
 
 # Model validation details
-st.markdown("### ­ƒôè Model Validation Details")
+st.markdown("### 📊 Model Validation Details")
 
 col1, col2 = st.columns(2)
 
@@ -796,13 +796,13 @@ with col2:
     # Model performance status
     accuracy = metrics.get('accuracy', 0)
     if accuracy >= 0.9:
-        status = "­ƒƒó Excellent"
+        status = "🟢 Excellent"
         status_class = "status-normal"
     elif accuracy >= 0.8:
-        status = "­ƒƒí Good"
+        status = "🟡 Good"
         status_class = "status-warning"
     else:
-        status = "­ƒö┤ Needs Improvement"
+        status = "🔴 Needs Improvement"
         status_class = "status-critical"
     
     st.markdown(f"""
@@ -813,7 +813,7 @@ with col2:
     """, unsafe_allow_html=True)
 
 # Data integrity check
-st.markdown("### ­ƒöì Data Integrity Check")
+st.markdown("### 🔍 Data Integrity Check")
 
 data_integrity_issues = []
 for d in data:
@@ -858,16 +858,16 @@ if data_integrity_issues:
                 mime="text/csv"
             )
 else:
-    st.success("Ô£à Data integrity check passed - No issues found")
+    st.success("✅ Data integrity check passed - No issues found")
 
 # Model limitations and considerations
-st.markdown("### ÔÜá´©Å Model Limitations & Considerations")
+st.markdown("### ⚠️ Model Limitations & Considerations")
 
 col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("""
-    **­ƒöì Common ML Challenges:**
+    **🔍 Common ML Challenges:**
     - **Data Quality:** Sensor noise and missing values
     - **Feature Engineering:** Complex sensor interactions
     - **Model Complexity:** Balance between accuracy and interpretability
@@ -876,7 +876,7 @@ with col1:
 
 with col2:
     st.markdown("""
-    **­ƒôê Performance Expectations:**
+    **📈 Performance Expectations:**
     - **Accuracy:** 60-95% (realistic range)
     - **Precision:** 50-90% (false positive control)
     - **Recall:** 50-90% (anomaly detection sensitivity)
