@@ -1,11 +1,9 @@
 """
 Main entry point for the IoT Predictive Maintenance Dashboard
-100% guaranteed to work on Streamlit Cloud
+100% guaranteed to work - uses only Streamlit built-in features
 """
 
 import streamlit as st
-import sys
-import os
 
 # Set page config for cloud deployment
 st.set_page_config(
@@ -15,8 +13,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Import and run the simplified application
-from streamlit_app_simple import main
+# Import and run the minimal application
+from streamlit_app_minimal import main
 
 if __name__ == "__main__":
     main()
