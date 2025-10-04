@@ -67,7 +67,7 @@ st.markdown("""
     .metric-card h3 {
         font-size: 0.9rem;
         font-weight: 600;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.1rem;
         opacity: 0.95;
         letter-spacing: 0.01em;
         text-align: center;
