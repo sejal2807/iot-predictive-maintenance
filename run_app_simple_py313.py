@@ -296,17 +296,43 @@ if st.session_state.live_data:
 if selected_devices:
     data = [d for d in data if d['device_id'] in selected_devices]
 
-# Time range indicator
+# Time range indicator with logical validation
 st.info(f"📅 **Current Time Range:** {time_range} hours | **Data Points:** {len(data)} readings | **Last Updated:** {datetime.now().strftime('%H:%M:%S')}")
+
+# Add explanation of metrics
+st.markdown("""
+**📊 Metrics Explanation:**
+- **Active Devices:** Currently online devices transmitting data
+- **Critical Devices:** Active devices with health score < 30% (subset of active devices)
+- **Anomaly Rate:** Percentage of data points flagged as anomalous
+- **Avg Health:** Average health score across all devices
+- **System Uptime:** Overall system availability percentage
+""")
 
 # Metrics dashboard
 st.subheader("📊 System Overview")
 
-# Calculate metrics
+# Calculate metrics with proper logic
 total_devices = len(set(d['device_id'] for d in data))
 anomalies = sum(1 for d in data if d['is_anomaly'])
 anomaly_rate = anomalies / len(data) if len(data) > 0 else 0
-critical_devices = sum(1 for d in data if d['status'] == 'Critical')
+
+# Fix: Count only currently active devices that are critical
+# Get the latest reading for each device
+device_latest_status = {}
+for d in data:
+    device_id = d['device_id']
+    if device_id not in device_latest_status or d['timestamp'] > device_latest_status[device_id]['timestamp']:
+        device_latest_status[device_id] = d
+
+# Count critical devices from latest readings only
+critical_devices = sum(1 for device_data in device_latest_status.values() if device_data['status'] == 'Critical')
+
+# Logical validation: Critical devices cannot exceed active devices
+if critical_devices > total_devices:
+    st.warning(f"⚠️ **Data Logic Error:** Critical devices ({critical_devices}) exceed active devices ({total_devices}). This indicates a data processing issue.")
+    critical_devices = min(critical_devices, total_devices)  # Cap at total devices
+
 avg_health = sum(d['health_score'] for d in data) / len(data) if len(data) > 0 else 0
 
 # Metric cards
