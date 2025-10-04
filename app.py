@@ -45,38 +45,42 @@ st.markdown("""
     
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.5rem;
-        border-radius: 15px;
+        padding: 1rem;
+        border-radius: 12px;
         color: white;
         text-align: center;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        margin: 0.5rem 0;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        margin: 0.25rem;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
-        height: 120px;
+        height: 100px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-    
-    .metric-card h3 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        opacity: 0.95;
-        letter-spacing: 0.02em;
-        text-align: center;
+        box-sizing: border-box;
         width: 100%;
     }
     
+    .metric-card h3 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        opacity: 0.95;
+        letter-spacing: 0.01em;
+        text-align: center;
+        width: 100%;
+        line-height: 1.2;
+    }
+    
     .metric-card h2 {
-        font-size: 2rem;
+        font-size: 1.6rem;
         font-weight: 700;
         margin: 0;
         letter-spacing: -0.01em;
         text-align: center;
         width: 100%;
+        line-height: 1.1;
     }
     
     .status-normal {
@@ -179,14 +183,23 @@ st.markdown("""
     .stColumns > div {
         flex: 1;
         min-width: 0;
+        padding: 0.25rem;
     }
     
-    /* Remove default margins and padding */
+    /* Keep content within bounds */
     .main .block-container {
         padding-top: 1rem;
         padding-bottom: 1rem;
         padding-left: 1rem;
         padding-right: 1rem;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    /* Metric card container */
+    .metric-card {
+        max-width: 100%;
+        box-sizing: border-box;
     }
 </style>
 """, unsafe_allow_html=True)
