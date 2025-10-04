@@ -419,24 +419,13 @@ with col5:
 # Real-time charts
 st.subheader("📊 Sensor Data Charts")
 
-# Force display of charts section
-st.write("🔍 **Charts Section Loading...**")
-
 df = pd.DataFrame(data)
 
-# Data validation with debugging
-st.write(f"🔍 **Debug Info:** Data length = {len(data)}, DataFrame shape = {df.shape}")
-
+# Data validation (silent)
 if len(data) == 0:
     st.error("No data available for charts")
 elif len(df) == 0:
     st.error("DataFrame is empty")
-else:
-    st.info(f"📈 Creating charts with {len(df)} data points")
-    st.write("📊 **Available columns:**", df.columns.tolist())
-
-# Create charts using Streamlit's built-in charts
-st.write("📈 **Creating sensor charts...**")
 
 col1, col2 = st.columns(2)
 
@@ -449,8 +438,7 @@ with col1:
         else:
             st.warning("No temperature data available")
     except Exception as e:
-        st.error(f"Error creating temperature chart: {e}")
-        st.write("DataFrame columns:", df.columns.tolist())
+        st.error("Unable to display temperature chart")
     
     st.subheader("📳 Vibration (mm/s)")
     try:
@@ -459,7 +447,7 @@ with col1:
         else:
             st.warning("No vibration data available")
     except Exception as e:
-        st.error(f"Error creating vibration chart: {e}")
+        st.error("Unable to display vibration chart")
 
 with col2:
     st.subheader("🔧 Pressure (bar)")
@@ -469,7 +457,7 @@ with col2:
         else:
             st.warning("No pressure data available")
     except Exception as e:
-        st.error(f"Error creating pressure chart: {e}")
+        st.error("Unable to display pressure chart")
     
     st.subheader("⚡ Current (A)")
     try:
@@ -478,7 +466,7 @@ with col2:
         else:
             st.warning("No current data available")
     except Exception as e:
-        st.error(f"Error creating current chart: {e}")
+        st.error("Unable to display current chart")
 
 # Device status
 st.subheader("🏭 Device Status Overview")
