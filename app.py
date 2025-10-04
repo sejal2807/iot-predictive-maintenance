@@ -54,7 +54,8 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
         font-weight: 500;
         height: 120px;
-        min-width: 180px;
+        width: 100%;
+        max-width: 200px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -488,7 +489,7 @@ if critical_devices > total_devices:
 avg_health = sum(d['health_score'] for d in data) / len(data) if len(data) > 0 else 0
 
 # Metric cards
-col1, col2, col3, col4, col5 = st.columns(5)
+col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1], gap="small")
 
 with col1:
     st.markdown(f"""
