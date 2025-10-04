@@ -143,6 +143,9 @@ def generate_iot_data(time_range_hours=24):
             else:
                 vib_base = 1.0 + np.random.normal(0, 0.3)
             
+            # Scale vibration for better visibility (multiply by 10)
+            vib_base = vib_base * 10
+            
             # Pressure increases over time (wear)
             pressure_base = 10 + (i / 24) * 3 + np.random.normal(0, 0.5)
             
@@ -164,7 +167,7 @@ def generate_iot_data(time_range_hours=24):
             # How healthy is this device?
             health_score = max(0, min(100, 100 - (
                 (temp_base - 25) * 2 + 
-                vib_base * 10 + 
+                (vib_base / 10) * 10 +  # Scale back for health calculation
                 (pressure_base - 10) * 3 + 
                 (current_base - 15) * 2
             )))
@@ -196,14 +199,14 @@ def simulate_live_data():
         device_locations = ['Plant A', 'Plant B', 'Warehouse', 'Office', 'Factory']
         
         temp = 25 + random.uniform(-5, 15) + random.uniform(-2, 2)
-        vib = 2 + random.uniform(-1, 3) + random.uniform(-0.5, 0.5)
+        vib = (2 + random.uniform(-1, 3) + random.uniform(-0.5, 0.5)) * 10  # Scale for visibility
         press = 10 + random.uniform(-2, 4) + random.uniform(-1, 1)
         curr = 15 + random.uniform(-5, 10) + random.uniform(-2, 2)
         hum = 60 + random.uniform(-20, 20) + random.uniform(-5, 5)
         
         health_score = max(0, min(100, 100 - (
             (temp - 25) * 2 + 
-            vib * 10 + 
+            (vib / 10) * 10 +  # Scale back for health calculation
             (press - 10) * 3 + 
             (curr - 15) * 2
         )))
@@ -408,7 +411,10 @@ with col1:
     
     st.subheader("📳 Vibration (mm/s)")
     vib_data = df.set_index('timestamp')['vibration']
-    st.line_chart(vib_data)
+    if not vib_data.empty:
+        st.line_chart(vib_data)
+    else:
+        st.warning("No vibration data available")
 
 with col2:
     st.subheader("🔧 Pressure (bar)")
