@@ -45,43 +45,39 @@ st.markdown("""
     
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 0.8rem;
-        border-radius: 10px;
+        padding: 1rem;
+        border-radius: 12px;
         color: white;
         text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        margin: 0.1rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        margin: 0.25rem;
         font-family: 'Inter', sans-serif;
         font-weight: 500;
-        height: 90px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         box-sizing: border-box;
         width: 100%;
-        min-width: 0;
     }
     
     .metric-card h3 {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         font-weight: 600;
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.5rem;
         opacity: 0.95;
         letter-spacing: 0.01em;
         text-align: center;
         width: 100%;
-        line-height: 1.1;
     }
     
     .metric-card h2 {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
         font-weight: 700;
         margin: 0;
         letter-spacing: -0.01em;
         text-align: center;
         width: 100%;
-        line-height: 1.0;
     }
     
     .status-normal {
@@ -180,26 +176,11 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
     
-    /* Responsive columns for metric cards */
+    /* Equal width columns for metric cards */
     .stColumns > div {
         flex: 1;
         min-width: 0;
-        padding: 0.1rem;
-        max-width: 100%;
-    }
-    
-    /* Ensure cards don't overflow */
-    @media (max-width: 1200px) {
-        .metric-card {
-            height: 80px;
-            padding: 0.6rem;
-        }
-        .metric-card h3 {
-            font-size: 0.7rem;
-        }
-        .metric-card h2 {
-            font-size: 1.2rem;
-        }
+        padding: 0.25rem;
     }
     
     /* Keep content within bounds */
@@ -502,9 +483,8 @@ if critical_devices > total_devices:
 
 avg_health = sum(d['health_score'] for d in data) / len(data) if len(data) > 0 else 0
 
-# Metric cards - Use responsive layout
-col1, col2, col3 = st.columns(3)
-col4, col5 = st.columns(2)
+# Metric cards
+col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     st.markdown(f"""
