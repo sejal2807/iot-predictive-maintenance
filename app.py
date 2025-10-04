@@ -67,22 +67,24 @@ st.markdown("""
     .metric-card h3 {
         font-size: 0.9rem;
         font-weight: 600;
-        margin-bottom: 0.1rem;
+        margin: 0;
+        padding: 0;
         opacity: 0.95;
         letter-spacing: 0.01em;
         text-align: center;
         width: 100%;
-        line-height: 1.2;
+        line-height: 1.0;
     }
     
     .metric-card h2 {
         font-size: 1.6rem;
         font-weight: 700;
         margin: 0;
+        padding: 0;
         letter-spacing: -0.01em;
         text-align: center;
         width: 100%;
-        line-height: 1.1;
+        line-height: 1.0;
     }
     
     .status-normal {
